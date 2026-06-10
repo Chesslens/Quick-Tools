@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI";
-  background: radial-gradient(circle at top, #1a1a2e, #000);
+  background: radial-gradient(circle at top, #0f172a, #000);
   color: white;
 }
 
@@ -20,16 +20,17 @@ body {
 }
 
 .card {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.07);
   padding: 18px;
-  border-radius: 14px;
+  border-radius: 16px;
   text-align: center;
   cursor: pointer;
   transition: 0.2s;
+  backdrop-filter: blur(10px);
 }
 
 .card:hover {
-  transform: scale(1.05);
+  transform: translateY(-6px) scale(1.05);
   background: rgba(255,255,255,0.15);
 }
 
@@ -39,15 +40,15 @@ body {
 
 input, textarea {
   width: 100%;
-  margin: 8px 0;
+  margin: 6px 0;
   padding: 10px;
   border-radius: 10px;
   border: none;
 }
 
 button {
-  padding: 10px 12px;
-  margin: 5px;
+  margin: 6px;
+  padding: 10px 14px;
   border: none;
   border-radius: 10px;
   background: #4f7cff;
