@@ -7,31 +7,29 @@ body {
 
 .topbar {
   text-align: center;
-  padding: 20px;
-  font-size: 24px;
+  padding: 18px;
+  font-size: 22px;
   font-weight: bold;
-  letter-spacing: 1px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
   padding: 20px;
 }
 
 .card {
   background: rgba(255,255,255,0.08);
-  padding: 20px;
-  border-radius: 16px;
+  padding: 18px;
+  border-radius: 14px;
   text-align: center;
   cursor: pointer;
   transition: 0.2s;
-  backdrop-filter: blur(10px);
 }
 
 .card:hover {
-  transform: translateY(-5px) scale(1.05);
+  transform: scale(1.05);
   background: rgba(255,255,255,0.15);
 }
 
@@ -39,15 +37,20 @@ body {
   padding: 20px;
 }
 
+input, textarea {
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+}
+
 button {
-  padding: 10px 14px;
+  padding: 10px 12px;
+  margin: 5px;
   border: none;
   border-radius: 10px;
   background: #4f7cff;
   color: white;
   cursor: pointer;
-}
-
-.hint {
-  opacity: 0.6;
 }
