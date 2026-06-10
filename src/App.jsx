@@ -6,32 +6,44 @@ export default function App() {
   return (
     <div className="app">
 
-      {/* CONTENT */}
-      <div className="screen">
+      {/* SCREEN (animated switch) */}
+      <div className="screen fade">
 
         {tab === "home" && <Home setTab={setTab} />}
-        {tab === "age" && <Age setTab={setTab} />}
-        {tab === "password" && <Password setTab={setTab} />}
-        {tab === "word" && <Word setTab={setTab} />}
-        {tab === "percent" && <Percent setTab={setTab} />}
-        {tab === "calc" && <Calc setTab={setTab} />}
+        {tab === "age" && <Age />}
+        {tab === "password" && <Password />}
+        {tab === "word" && <Word />}
+        {tab === "percent" && <Percent />}
+        {tab === "calc" && <Calc />}
 
       </div>
 
-      {/* DOCK (iOS STYLE) */}
+      {/* DOCK */}
       <div className="dock">
-        <button onClick={() => setTab("home")}>🏠</button>
-        <button onClick={() => setTab("age")}>🎂</button>
-        <button onClick={() => setTab("password")}>🔐</button>
-        <button onClick={() => setTab("word")}>📝</button>
-        <button onClick={() => setTab("calc")}>🧮</button>
+        <DockButton icon="🏠" active={tab === "home"} onClick={() => setTab("home")} />
+        <DockButton icon="🎂" active={tab === "age"} onClick={() => setTab("age")} />
+        <DockButton icon="🔐" active={tab === "password"} onClick={() => setTab("password")} />
+        <DockButton icon="📝" active={tab === "word"} onClick={() => setTab("word")} />
+        <DockButton icon="🧮" active={tab === "calc"} onClick={() => setTab("calc")} />
       </div>
 
     </div>
   );
 }
 
-/* ---------------- HOME ---------------- */
+/* DOCK BUTTON (ACTIVE ANIMATION) */
+function DockButton({ icon, onClick, active }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`dock-btn ${active ? "active" : ""}`}
+    >
+      {icon}
+    </button>
+  );
+}
+
+/* HOME */
 function Home({ setTab }) {
   return (
     <div className="page">
@@ -48,7 +60,7 @@ function Home({ setTab }) {
   );
 }
 
-/* ---------------- AGE ---------------- */
+/* AGE */
 function Age() {
   const [dob, setDob] = useState("");
 
@@ -65,14 +77,15 @@ function Age() {
   );
 }
 
-/* ---------------- PASSWORD ---------------- */
+/* PASSWORD */
 function Password() {
   const [pass, setPass] = useState("");
 
   const gen = () => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$";
+    const chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$!";
     let p = "";
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 12; i++) {
       p += chars[Math.floor(Math.random() * chars.length)];
     }
     setPass(p);
@@ -87,9 +100,10 @@ function Password() {
   );
 }
 
-/* ---------------- WORD ---------------- */
+/* WORD */
 function Word() {
   const [text, setText] = useState("");
+
   const count = text.trim() ? text.trim().split(/\s+/).length : 0;
 
   return (
@@ -101,7 +115,7 @@ function Word() {
   );
 }
 
-/* ---------------- PERCENT ---------------- */
+/* PERCENT */
 function Percent() {
   const [a, setA] = useState("");
   const [b, setB] = useState("");
@@ -111,14 +125,14 @@ function Percent() {
   return (
     <div className="page">
       <h2>Percentage</h2>
-      <input placeholder="Value" onChange={(e) => setA(e.target.value)} />
-      <input placeholder="Total" onChange={(e) => setB(e.target.value)} />
+      <input onChange={(e) => setA(e.target.value)} placeholder="Value" />
+      <input onChange={(e) => setB(e.target.value)} placeholder="Total" />
       <h3>{res && res + "%"}</h3>
     </div>
   );
 }
 
-/* ---------------- CALC ---------------- */
+/* CALC */
 function Calc() {
   const [x, setX] = useState("");
   const [y, setY] = useState("");
@@ -141,4 +155,4 @@ function Calc() {
       <h3>Result: {r}</h3>
     </div>
   );
-}
+                                                                           }
