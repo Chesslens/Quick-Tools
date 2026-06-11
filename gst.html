@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GST Calculator</title>
+  <style>
+    body{font-family:Arial;text-align:center;padding:20px;background:#f5f7fb;}
+    input,button{padding:10px;margin:5px;width:200px;}
+    button{background:#0d47a1;color:white;border:none;cursor:pointer;}
+  </style>
+</head>
+<body>
+
+<h2>GST Calculator</h2>
+
+<input id="p" placeholder="Price"><br>
+<input id="r" placeholder="GST %"><br>
+
+<button onclick="calc()">Calculate</button>
+
+<h3 id="result"></h3>
+
+<script>
+function calc(){
+  let p = +document.getElementById("p").value;
+  let r = +document.getElementById("r").value;
+
+  let gst = (p*r)/100;
+  let total = p + gst;
+
+  document.getElementById("result").innerHTML =
+  "GST: ₹" + gst.toFixed(2) + "<br>Total: ₹" + total.toFixed(2);
+}
+</script>
+
+</body>
+</html>
