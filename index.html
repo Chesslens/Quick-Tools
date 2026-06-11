@@ -528,17 +528,7 @@
       <div class="range-labels"><span>1 yr</span><span>30 yrs</span></div>
     </div>
   </div>
-   <div class="field">
-  <label>Currency</label>
-  <select id="currency">
-    <option value="INR">INR (₹)</option>
-    <option value="USD">USD ($)</option>
-    <option value="EUR">EUR (€)</option>
-    <option value="GBP">GBP (£)</option>
-    <option value="JPY">JPY (¥)</option>
-  </select>
-   </div>
-  
+
   <!-- RIGHT: RESULTS -->
   <div class="panel">
     <div class="panel-title">Monthly Breakdown</div>
@@ -617,20 +607,8 @@
 </footer>
 
 <script>
-  function fmt(n) {
-  const cur = document.getElementById("currency").value;
+  const fmt = (n) => '₹' + Math.round(n).toLocaleString('en-IN');
 
-  const symbols = {
-    INR: "₹",
-    USD: "$",
-    EUR: "€",
-    GBP: "£",
-    JPY: "¥"
-  };
-
-  return symbols[cur] + Math.round(n).toLocaleString('en-IN');
-  }
-  
   // Sync number input <-> range slider
   function syncPair(inputId, rangeId, displayId, formatter) {
     const input = document.getElementById(inputId);
@@ -744,8 +722,6 @@
   }
 
   calculate();
-  
-  document.getElementById("currency").addEventListener("input", calculate);
 </script>
 </body>
 </html>
