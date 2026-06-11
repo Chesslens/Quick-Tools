@@ -136,6 +136,17 @@
     footer a { color: var(--slate); text-decoration: none; }
     footer a:hover { color: var(--navy); }
 
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,27,45,0.5); z-index: 200; align-items: center; justify-content: center; padding: 1.5rem; }
+    .modal-overlay.open { display: flex; }
+    .modal-box { background: var(--surface); border-radius: 16px; padding: 2rem; max-width: 480px; width: 100%; max-height: 80vh; overflow-y: auto; position: relative; }
+    .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--muted); line-height: 1; }
+    .modal-close:hover { color: var(--navy); }
+    .modal-title { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--navy); margin-bottom: 1rem; }
+    .modal-body { font-size: 0.875rem; color: var(--slate); line-height: 1.7; }
+    .modal-body p { margin-bottom: 0.75rem; }
+    .modal-body h3 { font-size: 0.875rem; font-weight: 600; color: var(--navy); margin: 1rem 0 0.35rem; }
+
     /* RESPONSIVE */
     @media (max-width: 700px) {
       .calculator-wrap { grid-template-columns: 1fr; }
@@ -278,8 +289,46 @@
   </table>
 </div>
 
+<!-- PRIVACY MODAL -->
+<div class="modal-overlay" id="privacyModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('privacyModal')">✕</button>
+    <div class="modal-title">Privacy Policy</div>
+    <div class="modal-body">
+      <p>Last updated: June 2026</p>
+      <h3>No Data Collection</h3>
+      <p>LoanCalc does not collect, store or share any personal data. All calculations happen entirely in your browser — nothing is sent to any server.</p>
+      <h3>No Cookies</h3>
+      <p>We do not use cookies or any tracking technology on this site.</p>
+      <h3>Third Party Services</h3>
+      <p>We use Google Fonts to load fonts. Google may collect basic request data as part of serving those fonts.</p>
+      <h3>Contact</h3>
+      <p>If you have any questions about this privacy policy, please reach out via GitHub.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT MODAL -->
+<div class="modal-overlay" id="aboutModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('aboutModal')">✕</button>
+    <div class="modal-title">About LoanCalc</div>
+    <div class="modal-body">
+      <p>LoanCalc is a free, instant EMI and mortgage calculator built for everyone — no signup, no ads, no nonsense.</p>
+      <h3>What it does</h3>
+      <p>Enter your loan amount, interest rate and tenure to instantly see your monthly EMI, total interest payable, and a full year-by-year amortization schedule.</p>
+      <h3>Currencies</h3>
+      <p>Supports INR, USD, EUR, GBP and JPY — each with sensible default loan ranges for that country.</p>
+      <h3>100% Free</h3>
+      <p>LoanCalc is completely free to use. All calculations run in your browser with no backend or API required.</p>
+      <h3>Disclaimer</h3>
+      <p>Results are estimates only. Please consult your bank or lender for exact figures before making any financial decisions.</p>
+    </div>
+  </div>
+</div>
+
 <footer>
-  <p>LoanCalc — Free mortgage & EMI calculator &nbsp;·&nbsp; <a href="#">Privacy</a> &nbsp;·&nbsp; <a href="#">About</a></p>
+  <p>LoanCalc — Free mortgage & EMI calculator &nbsp;·&nbsp; <a href="#" onclick="openModal('privacyModal')">Privacy</a> &nbsp;·&nbsp; <a href="#" onclick="openModal('aboutModal')">About</a></p>
   <p style="margin-top:0.5rem;">Results are estimates. Consult your lender for exact figures.</p>
 </footer>
 
@@ -409,6 +458,18 @@
   }
 
   calculate();
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  // Close on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(overlay.id); });
+  });
 </script>
 </body>
 </html>
