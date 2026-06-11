@@ -617,8 +617,20 @@
 </footer>
 
 <script>
-  const fmt = (n) => '₹' + Math.round(n).toLocaleString('en-IN');
+  function fmt(n) {
+  const cur = document.getElementById("currency").value;
 
+  const symbols = {
+    INR: "₹",
+    USD: "$",
+    EUR: "€",
+    GBP: "£",
+    JPY: "¥"
+  };
+
+  return symbols[cur] + Math.round(n).toLocaleString('en-IN');
+  }
+  
   // Sync number input <-> range slider
   function syncPair(inputId, rangeId, displayId, formatter) {
     const input = document.getElementById(inputId);
