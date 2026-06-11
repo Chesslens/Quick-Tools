@@ -5,25 +5,20 @@
   <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LoanCalc — Free Loan Calculator & Mortgage Calculator | Instant Monthly Payment Calculator</title>
-  <meta name="description" content="Calculate your home loan, car loan, or personal loan monthly payment instantly. Free online loan calculator with amortization schedule. Supports INR, USD, EUR, GBP, and JPY currencies." />
-  <meta name="keywords" content="Monthly payment calculator, loan calculator, mortgage calculator, home loan calculator, car loan calculator, personal loan calculator, free loan calculator, monthly installment calculator" />
+  <title>LoanCalc — Free Financial Calculators | Loan, SIP, Compound Interest, Tax & More</title>
+  <meta name="description" content="Free online financial calculators: loan EMI, SIP returns, compound interest, currency converter, tax estimator, and retirement planner. Instant results, no signup." />
+  <meta name="keywords" content="loan calculator, SIP calculator, compound interest calculator, currency converter, tax calculator, retirement calculator, mortgage calculator, EMI calculator" />
   <meta name="author" content="LoanCalc" />
   <meta name="robots" content="index, follow" />
   <link rel="icon" type="image/svg+xml" href="/logo__2_.svg" />
   <link rel="canonical" href="https://loancalc-inr.vercel.app/" />
-
-  <!-- Open Graph (WhatsApp, Facebook previews) -->
-  <meta property="og:title" content="LoanCalc — Free Calculate Monthly Payment & Mortgage Calculator" />
-  <meta property="og:description" content="Calculate your Monthly Calculatete your. Get full breakdown of principal, interest and year-by-year schedule. Free, no signup required." />
+  <meta property="og:title" content="LoanCalc — Free Financial Calculators" />
+  <meta property="og:description" content="Loan EMI, SIP, Compound Interest, Currency Converter, Tax Estimator & Retirement Planner — all free, instant, no signup." />
   <meta property="og:url" content="https://loancalc-inr.vercel.app/" />
   <meta property="og:type" content="website" />
-
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="LoanCalc — Free Monthly Payment & Mortgage Calculator" />
-  <meta name="twitter:description" content="Calculate your loan monthly payment instantly. Free online calculator with amortization schedule." />
-
+  <meta name="twitter:title" content="LoanCalc — Free Financial Calculators" />
+  <meta name="twitter:description" content="Free online financial calculators: EMI, SIP, Compound Interest, Currency, Tax & Retirement." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -42,7 +37,7 @@
     .nav-logo { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--navy); letter-spacing: -0.02em; }
     .nav-logo span { color: var(--indigo); }
     .nav-right { display: flex; align-items: center; gap: 2rem; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
     .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--slate); text-decoration: none; transition: color 0.15s; }
     .nav-links a:hover { color: var(--navy); }
 
@@ -59,6 +54,13 @@
     .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; letter-spacing: -0.02em; color: var(--navy); max-width: 520px; }
     .hero p { margin-top: 1rem; font-size: 1rem; color: var(--slate); max-width: 460px; }
 
+    /* CALC NAV TABS */
+    .calc-tabs-wrap { max-width: 960px; margin: 2rem auto 0; padding: 0 2rem; }
+    .calc-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .calc-tab { font-family: 'Inter', sans-serif; font-size: 0.8125rem; font-weight: 600; color: var(--slate); background: var(--surface); border: 1.5px solid var(--border); border-radius: 8px; padding: 6px 16px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .calc-tab:hover { border-color: var(--indigo); color: var(--indigo); }
+    .calc-tab.active { background: var(--indigo); color: #fff; border-color: var(--indigo); }
+
     /* CURRENCY BANNER */
     .currency-banner { max-width: 960px; margin: 1.25rem auto 0; padding: 0 2rem; }
     .currency-banner-inner { display: flex; align-items: center; gap: 0.75rem; background: var(--indigo-light); border: 1px solid #C7D2FE; border-radius: 10px; padding: 0.6rem 1rem; font-size: 0.8125rem; color: var(--indigo); font-weight: 500; }
@@ -66,6 +68,8 @@
 
     /* MAIN LAYOUT */
     .calculator-wrap { max-width: 960px; margin: 2.5rem auto 4rem; padding: 0 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
+    .calculator-section { display: none; }
+    .calculator-section.active { display: contents; }
 
     /* PANEL */
     .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; }
@@ -79,9 +83,10 @@
     .input-wrap { position: relative; }
     .input-prefix { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 0.875rem; font-weight: 500; color: var(--muted); pointer-events: none; }
     .input-suffix { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 0.875rem; font-weight: 500; color: var(--muted); pointer-events: none; }
-    input[type="number"] { width: 100%; height: 44px; border: 1.5px solid var(--border); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-weight: 500; color: var(--navy); background: var(--bg); padding: 0 2.5rem 0 2.25rem; outline: none; transition: border-color 0.15s; -moz-appearance: textfield; }
+    input[type="number"], select.field-select { width: 100%; height: 44px; border: 1.5px solid var(--border); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-weight: 500; color: var(--navy); background: var(--bg); padding: 0 2.5rem 0 2.25rem; outline: none; transition: border-color 0.15s; -moz-appearance: textfield; }
     input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
-    input[type="number"]:focus { border-color: var(--indigo); background: #fff; }
+    input[type="number"]:focus, select.field-select:focus { border-color: var(--indigo); background: #fff; }
+    select.field-select { padding: 0 14px; appearance: none; cursor: pointer; }
 
     /* RANGE SLIDER */
     input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; background: var(--border); border-radius: 4px; margin-top: 0.75rem; outline: none; cursor: pointer; }
@@ -111,6 +116,8 @@
     .dot-principal { background: var(--indigo); }
     .dot-interest { background: #A78BFA; }
     .dot-total { background: var(--navy); }
+    .dot-green { background: var(--green); }
+    .dot-amber { background: #F59E0B; }
     .breakdown-value { font-size: 0.9375rem; font-weight: 600; color: var(--navy); font-variant-numeric: tabular-nums; }
     .breakdown-divider { height: 1px; background: var(--border); margin: 0.25rem 0; }
 
@@ -133,6 +140,23 @@
     td:not(:first-child) { text-align: right; }
     td.positive { color: var(--green); font-weight: 500; }
 
+    /* FULL WIDTH PANEL */
+    .panel-full { grid-column: 1 / -1; }
+
+    /* CURRENCY CONVERTER SPECIFIC */
+    .conv-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .conv-arrow { font-size: 1.5rem; color: var(--muted); flex-shrink: 0; }
+    .conv-result-box { background: var(--indigo-light); border: 1px solid #C7D2FE; border-radius: 10px; padding: 1.25rem 1.5rem; margin-top: 1rem; }
+    .conv-result-amount { font-family: 'DM Serif Display', serif; font-size: 2rem; color: var(--navy); letter-spacing: -0.02em; }
+    .conv-result-sub { font-size: 0.8125rem; color: var(--indigo); margin-top: 0.25rem; font-weight: 500; }
+
+    /* GREEN HIGHLIGHT */
+    .result-highlight-green { text-align: center; padding: 1.5rem 1rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
+    .result-highlight-green .emi-amount { color: var(--green); }
+
+    /* INFO BADGE */
+    .info-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--green-light); border: 1px solid #A7F3D0; border-radius: 8px; padding: 0.4rem 0.75rem; font-size: 0.8rem; font-weight: 600; color: var(--green); margin-top: 0.75rem; }
+
     /* FOOTER */
     footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: 0.8125rem; color: var(--muted); background: var(--surface); }
     footer a { color: var(--slate); text-decoration: none; }
@@ -149,6 +173,11 @@
     .modal-body p { margin-bottom: 0.75rem; }
     .modal-body h3 { font-size: 0.875rem; font-weight: 600; color: var(--navy); margin: 1rem 0 0.35rem; }
 
+    /* SECTION INFO BLOCKS */
+    .info-section { max-width: 960px; margin: 0 auto 3rem; padding: 0 2rem; }
+    .info-section h2 { font-family: 'DM Serif Display', serif; font-size: 1.375rem; color: var(--navy); margin-bottom: 0.75rem; }
+    .info-section p { font-size: 0.9rem; color: var(--slate); margin-bottom: 0.5rem; }
+
     /* RESPONSIVE */
     @media (max-width: 700px) {
       .calculator-wrap { grid-template-columns: 1fr; }
@@ -159,6 +188,8 @@
       td, thead th { padding: 0.6rem 0.75rem; }
       .cur-btn { padding: 4px 6px; font-size: 0.7rem; }
       .cur-btn .cur-flag { display: none; }
+      .calc-tabs { gap: 0.35rem; }
+      .calc-tab { font-size: 0.75rem; padding: 5px 12px; }
     }
   </style>
   <script type="application/ld+json">
@@ -166,25 +197,28 @@
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "LoanCalc",
-    "description": "Free online loan and mortgage calculator. Calculate monthly loan payments with a full amortization schedule.",
-    "url": "https://loan-calc-lilac.vercel.app/",
+    "description": "Free online financial calculators: loan EMI, SIP, compound interest, currency converter, tax estimator, and retirement planner.",
+    "url": "https://loancalc-inr.vercel.app/",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "All",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   }
   </script>
 </head>
 <body>
 
 <nav>
+  <a href="#" class="nav-logo">Loan<span>Calc</span></a>
   <div class="nav-right">
-  <ul class="nav-links">
-    <li><a href="#mortgage">Mortgage</a></li>
-    <li><a href="#carloan">Car Loan</a></li>
-    <li><a href="#personalloan">Personal Loan</a></li>
-    <li><a href="#blog">Blog</a></li>
-  </ul>
-    <div class="currency-switcher">
+    <ul class="nav-links">
+      <li><a href="#" onclick="switchTab('loan')">Loan EMI</a></li>
+      <li><a href="#" onclick="switchTab('sip')">SIP</a></li>
+      <li><a href="#" onclick="switchTab('compound')">Compound</a></li>
+      <li><a href="#" onclick="switchTab('currency')">Currency</a></li>
+      <li><a href="#" onclick="switchTab('tax')">Tax</a></li>
+      <li><a href="#" onclick="switchTab('retirement')">Retirement</a></li>
+    </ul>
+    <div class="currency-switcher" id="currencySwitcher">
       <button class="cur-btn active" data-code="INR" onclick="switchCurrency('INR')"><span class="cur-flag">🇮🇳</span> ₹ INR</button>
       <button class="cur-btn" data-code="USD" onclick="switchCurrency('USD')"><span class="cur-flag">🇺🇸</span> $ USD</button>
       <button class="cur-btn" data-code="EUR" onclick="switchCurrency('EUR')"><span class="cur-flag">🇪🇺</span> € EUR</button>
@@ -196,18 +230,33 @@
 
 <div class="hero">
   <div class="hero-eyebrow">Free · Instant · No signup</div>
-  <h1>Know your monthly payment before you sign anything.</h1>
-  <p>Enter your loan details below and get a full breakdown — monthly payment, total interest, and year-by-year schedule.</p>
+  <h1 id="heroTitle">Know your monthly payment before you sign anything.</h1>
+  <p id="heroDesc">Enter your loan details below and get a full breakdown — monthly payment, total interest, and year-by-year schedule.</p>
 </div>
 
-<div class="currency-banner">
+<!-- CALCULATOR TABS -->
+<div class="calc-tabs-wrap">
+  <div class="calc-tabs">
+    <button class="calc-tab active" onclick="switchTab('loan')">🏦 Loan EMI</button>
+    <button class="calc-tab" onclick="switchTab('sip')">📈 SIP Returns</button>
+    <button class="calc-tab" onclick="switchTab('compound')">💹 Compound Interest</button>
+    <button class="calc-tab" onclick="switchTab('currency')">💱 Currency Converter</button>
+    <button class="calc-tab" onclick="switchTab('tax')">🧾 Income Tax</button>
+    <button class="calc-tab" onclick="switchTab('retirement')">🏖️ Retirement Planner</button>
+  </div>
+</div>
+
+<div class="currency-banner" id="currencyBanner">
   <div class="currency-banner-inner">
     <span class="banner-flag" id="bannerFlag">🇮🇳</span>
     <span id="bannerText">Showing amounts in Indian Rupee (INR)</span>
   </div>
 </div>
 
-<div class="calculator-wrap">
+<!-- ═══════════════════════════════════════════════ -->
+<!--  1. LOAN EMI CALCULATOR                         -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="calculator-wrap" id="section-loan">
   <div class="panel">
     <div class="panel-title">Loan Details</div>
     <div class="field">
@@ -222,7 +271,7 @@
     <div class="field">
       <label>Interest Rate <span class="value-display" id="interestRateDisplay">8.5%</span></label>
       <div class="input-wrap">
-        <input type="number" id="interestRate" value="8.5" min="1" max="30" step="0.1" style="padding-left: 14px;" />
+        <input type="number" id="interestRate" value="8.5" min="1" max="30" step="0.1" style="padding-left:14px;" />
         <span class="input-suffix">% p.a.</span>
       </div>
       <input type="range" id="interestRateRange" min="1" max="30" step="0.1" value="8.5" />
@@ -231,7 +280,7 @@
     <div class="field">
       <label>Loan Tenure <span class="value-display" id="tenureDisplay">20 yrs</span></label>
       <div class="input-wrap">
-        <input type="number" id="tenure" value="20" min="1" max="30" step="1" style="padding-left: 14px;" />
+        <input type="number" id="tenure" value="20" min="1" max="30" step="1" style="padding-left:14px;" />
         <span class="input-suffix">years</span>
       </div>
       <input type="range" id="tenureRange" min="1" max="30" step="1" value="20" />
@@ -249,8 +298,8 @@
     <div class="chart-wrap">
       <svg class="donut-svg" width="140" height="140" viewBox="0 0 140 140">
         <circle cx="70" cy="70" r="54" fill="none" stroke="#E2E5E9" stroke-width="16" />
-        <circle id="donutInterest" cx="70" cy="70" r="54" fill="none" stroke="#A78BFA" stroke-width="16" stroke-dasharray="339.3" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" style="transition: stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
-        <circle id="donutPrincipal" cx="70" cy="70" r="54" fill="none" stroke="#4F46E5" stroke-width="16" stroke-dasharray="339.3" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" style="transition: stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
+        <circle id="donutInterest" cx="70" cy="70" r="54" fill="none" stroke="#A78BFA" stroke-width="16" stroke-dasharray="339.3" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
+        <circle id="donutPrincipal" cx="70" cy="70" r="54" fill="none" stroke="#4F46E5" stroke-width="16" stroke-dasharray="339.3" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
       </svg>
       <div class="donut-center-text">
         <div class="donut-center-pct" id="interestPct">0%</div>
@@ -275,339 +324,890 @@
   </div>
 </div>
 
-<div class="amort-wrap">
+<!-- AMORTIZATION TABLE -->
+<div class="amort-wrap" id="amortSection">
   <div class="section-header">
     <div class="section-title">Year-by-Year Schedule</div>
     <button class="show-toggle" id="toggleTable">Show all years ↓</button>
   </div>
   <table>
     <thead>
-      <tr>
-        <th>Year</th><th>Principal Paid</th><th>Interest Paid</th><th>Total Paid</th><th>Balance</th>
-      </tr>
+      <tr><th>Year</th><th>Principal Paid</th><th>Interest Paid</th><th>Total Paid</th><th>Balance</th></tr>
     </thead>
     <tbody id="amortBody"></tbody>
   </table>
 </div>
 
-<!-- PRIVACY MODAL -->
+<!-- ═══════════════════════════════════════════════ -->
+<!--  2. SIP CALCULATOR                              -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="calculator-wrap" id="section-sip" style="display:none;">
+  <div class="panel">
+    <div class="panel-title">SIP Details</div>
+    <div class="field">
+      <label>Monthly Investment <span class="value-display" id="sipAmountDisplay">₹10,000</span></label>
+      <div class="input-wrap">
+        <span class="input-prefix" id="sipPrefix">₹</span>
+        <input type="number" id="sipAmount" value="10000" min="500" max="10000000" step="500" />
+      </div>
+      <input type="range" id="sipAmountRange" min="500" max="500000" step="500" value="10000" />
+      <div class="range-labels"><span id="sipRangeMin">₹500</span><span id="sipRangeMax">₹5L</span></div>
+    </div>
+    <div class="field">
+      <label>Expected Return Rate <span class="value-display" id="sipRateDisplay">12%</span></label>
+      <div class="input-wrap">
+        <input type="number" id="sipRate" value="12" min="1" max="40" step="0.5" style="padding-left:14px;" />
+        <span class="input-suffix">% p.a.</span>
+      </div>
+      <input type="range" id="sipRateRange" min="1" max="40" step="0.5" value="12" />
+      <div class="range-labels"><span>1%</span><span>40%</span></div>
+    </div>
+    <div class="field">
+      <label>Investment Period <span class="value-display" id="sipYearsDisplay">15 yrs</span></label>
+      <div class="input-wrap">
+        <input type="number" id="sipYears" value="15" min="1" max="40" step="1" style="padding-left:14px;" />
+        <span class="input-suffix">years</span>
+      </div>
+      <input type="range" id="sipYearsRange" min="1" max="40" step="1" value="15" />
+      <div class="range-labels"><span>1 yr</span><span>40 yrs</span></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">SIP Returns</div>
+    <div class="emi-highlight result-highlight-green">
+      <div class="emi-label">Estimated Returns</div>
+      <div class="emi-amount" id="sipReturns">₹0</div>
+      <div class="emi-period" id="sipMaturity">Maturity Value: ₹0</div>
+    </div>
+    <div class="chart-wrap">
+      <svg class="donut-svg" width="140" height="140" viewBox="0 0 140 140">
+        <circle cx="70" cy="70" r="54" fill="none" stroke="#E2E5E9" stroke-width="16" />
+        <circle id="sipDonutReturns" cx="70" cy="70" r="54" fill="none" stroke="#059669" stroke-width="16" stroke-dasharray="339.3" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
+        <circle id="sipDonutInvested" cx="70" cy="70" r="54" fill="none" stroke="#4F46E5" stroke-width="16" stroke-dasharray="339.3" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
+      </svg>
+      <div class="donut-center-text">
+        <div class="donut-center-pct" id="sipGainPct">0%</div>
+        <div class="donut-center-sub">Gain</div>
+      </div>
+    </div>
+    <div class="breakdown">
+      <div class="breakdown-row">
+        <div class="breakdown-label"><span class="dot dot-principal"></span>Invested Amount</div>
+        <div class="breakdown-value" id="sipInvested">₹0</div>
+      </div>
+      <div class="breakdown-row">
+        <div class="breakdown-label"><span class="dot dot-green"></span>Est. Returns</div>
+        <div class="breakdown-value" id="sipEstReturns">₹0</div>
+      </div>
+      <div class="breakdown-divider"></div>
+      <div class="breakdown-row">
+        <div class="breakdown-label"><span class="dot dot-total"></span>Total Value</div>
+        <div class="breakdown-value" id="sipTotalValue">₹0</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!--  3. COMPOUND INTEREST CALCULATOR                -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="calculator-wrap" id="section-compound" style="display:none;">
+  <div class="panel">
+    <div class="panel-title">Investment Details</div>
+    <div class="field">
+      <label>Principal Amount <span class="value-display" id="ciPrincipalDisplay">₹1,00,000</span></label>
+      <div class="input-wrap">
+        <span class="input-prefix" id="ciPrefix">₹</span>
+        <input type="number" id="ciPrincipal" value="100000" min="1000" max="100000000" step="1000" />
+      </div>
+      <input type="range" id="ciPrincipalRange" min="1000" max="10000000" step="1000" value="100000" />
+      <div class="range-labels"><span id="ciRangeMin">₹1K</span><span id="ciRangeMax">₹1Cr</span></div>
+    </div>
+    <div class="field">
+      <label>Annual Interest Rate <span class="value-display" id="ciRateDisplay">10%</span></label>
+      <div class="input-wrap">
+        <input type="number" id="ciRate" value="10" min="0.1" max="50" step="0.1" style="padding-left:14px;" />
+        <span class="input-suffix">% p.a.</span>
+      </div>
+      <input type="range" id="ciRateRange" min="0.1" max="50" step="0.1" value="10" />
+      <div class="range-labels"><span>0.1%</span><span>50%</span></div>
+    </div>
+    <div class="field">
+      <label>Time Period <span class="value-display" id="ciYearsDisplay">10 yrs</span></label>
+      <div class="input-wrap">
+        <input type="number" id="ciYears" value="10" min="1" max="50" step="1" style="padding-left:14px;" />
+        <span class="input-suffix">years</span>
+      </div>
+      <input type="range" id="ciYearsRange" min="1" max="50" step="1" value="10" />
+      <div class="range-labels"><span>1 yr</span><span>50 yrs</span></div>
+    </div>
+    <div class="field">
+      <label>Compounding Frequency</label>
+      <div class="input-wrap">
+        <select class="field-select" id="ciFreq" onchange="calcCompound()">
+          <option value="1">Annually (1×/year)</option>
+          <option value="2">Semi-Annually (2×/year)</option>
+          <option value="4">Quarterly (4×/year)</option>
+          <option value="12" selected>Monthly (12×/year)</option>
+          <option value="365">Daily (365×/year)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Growth Summary</div>
+    <div class="emi-highlight result-highlight-green">
+      <div class="emi-label">Total Value</div>
+      <div class="emi-amount" id="ciTotal">₹0</div>
+      <div class="emi-period" id="ciGainLine">Gain: ₹0</div>
+    </div>
+    <div class="chart-wrap">
+      <svg class="donut-svg" width="140" height="140" viewBox="0 0 140 140">
+        <circle cx="70" cy="70" r="54" fill="none" stroke="#E2E5E9" stroke-width="16" />
+        <circle id="ciDonutGain" cx="70" cy="70" r="54" fill="none" stroke="#059669" stroke-width="16" stroke-dasharray="339.3" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
+        <circle id="ciDonutPrincipal" cx="70" cy="70" r="54" fill="none" stroke="#4F46E5" stroke-width="16" stroke-dasharray="339.3" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
+      </svg>
+      <div class="donut-center-text">
+        <div class="donut-center-pct" id="ciGainPct">0%</div>
+        <div class="donut-center-sub">Return</div>
+      </div>
+    </div>
+    <div class="breakdown">
+      <div class="breakdown-row">
+        <div class="breakdown-label"><span class="dot dot-principal"></span>Principal</div>
+        <div class="breakdown-value" id="ciPrincipalOut">₹0</div>
+      </div>
+      <div class="breakdown-row">
+        <div class="breakdown-label"><span class="dot dot-green"></span>Interest Earned</div>
+        <div class="breakdown-value" id="ciInterestOut">₹0</div>
+      </div>
+      <div class="breakdown-divider"></div>
+      <div class="breakdown-row">
+        <div class="breakdown-label"><span class="dot dot-total"></span>Total Amount</div>
+        <div class="breakdown-value" id="ciTotalOut">₹0</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!--  4. CURRENCY CONVERTER                          -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="calculator-wrap" id="section-currency" style="display:none;">
+  <div class="panel panel-full" style="grid-column:1/-1;">
+    <div class="panel-title">Currency Converter</div>
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:end;margin-bottom:1.5rem;">
+      <div>
+        <div class="field" style="margin-bottom:0.75rem;">
+          <label>Amount</label>
+          <div class="input-wrap">
+            <input type="number" id="convAmount" value="1000" min="0" step="1" style="padding-left:14px;" oninput="calcCurrency()" />
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>From</label>
+          <div class="input-wrap">
+            <select class="field-select" id="convFrom" onchange="calcCurrency()">
+              <option value="USD">🇺🇸 USD — US Dollar</option>
+              <option value="EUR">🇪🇺 EUR — Euro</option>
+              <option value="GBP">🇬🇧 GBP — British Pound</option>
+              <option value="JPY">🇯🇵 JPY — Japanese Yen</option>
+              <option value="INR">🇮🇳 INR — Indian Rupee</option>
+              <option value="CAD">🇨🇦 CAD — Canadian Dollar</option>
+              <option value="AUD">🇦🇺 AUD — Australian Dollar</option>
+              <option value="CHF">🇨🇭 CHF — Swiss Franc</option>
+              <option value="CNY">🇨🇳 CNY — Chinese Yuan</option>
+              <option value="BRL">🇧🇷 BRL — Brazilian Real</option>
+              <option value="MXN">🇲🇽 MXN — Mexican Peso</option>
+              <option value="SGD">🇸🇬 SGD — Singapore Dollar</option>
+              <option value="AED">🇦🇪 AED — UAE Dirham</option>
+              <option value="KRW">🇰🇷 KRW — South Korean Won</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;padding-bottom:0.5rem;">
+        <button onclick="swapCurrencies()" style="background:var(--indigo-light);border:1.5px solid #C7D2FE;border-radius:50%;width:40px;height:40px;font-size:1.1rem;cursor:pointer;color:var(--indigo);">⇄</button>
+      </div>
+      <div>
+        <div class="field" style="margin-bottom:0.75rem;">
+          <label>Result</label>
+          <div class="conv-result-box">
+            <div class="conv-result-amount" id="convResult">—</div>
+            <div class="conv-result-sub" id="convRate">Enter amount above</div>
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>To</label>
+          <div class="input-wrap">
+            <select class="field-select" id="convTo" onchange="calcCurrency()">
+              <option value="USD">🇺🇸 USD — US Dollar</option>
+              <option value="EUR" selected>🇪🇺 EUR — Euro</option>
+              <option value="GBP">🇬🇧 GBP — British Pound</option>
+              <option value="JPY">🇯🇵 JPY — Japanese Yen</option>
+              <option value="INR">🇮🇳 INR — Indian Rupee</option>
+              <option value="CAD">🇨🇦 CAD — Canadian Dollar</option>
+              <option value="AUD">🇦🇺 AUD — Australian Dollar</option>
+              <option value="CHF">🇨🇭 CHF — Swiss Franc</option>
+              <option value="CNY">🇨🇳 CNY — Chinese Yuan</option>
+              <option value="BRL">🇧🇷 BRL — Brazilian Real</option>
+              <option value="MXN">🇲🇽 MXN — Mexican Peso</option>
+              <option value="SGD">🇸🇬 SGD — Singapore Dollar</option>
+              <option value="AED">🇦🇪 AED — UAE Dirham</option>
+              <option value="KRW">🇰🇷 KRW — South Korean Won</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;">
+      <div style="font-size:0.75rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);margin-bottom:0.75rem;">Quick Reference (1 USD =)</div>
+      <div id="rateGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.5rem;"></div>
+      <div style="font-size:0.7rem;color:var(--muted);margin-top:0.75rem;">* Indicative rates for reference. Not live market rates.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!--  5. INCOME TAX ESTIMATOR                        -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="calculator-wrap" id="section-tax" style="display:none;">
+  <div class="panel">
+    <div class="panel-title">Income Details</div>
+    <div class="field">
+      <label>Annual Income <span class="value-display" id="taxIncomeDisplay">₹10,00,000</span></label>
+      <div class="input-wrap">
+        <span class="input-prefix" id="taxPrefix">₹</span>
+        <input type="number" id="taxIncome" value="1000000" min="0" max="100000000" step="50000" />
+      </div>
+      <input type="range" id="taxIncomeRange" min="0" max="10000000" step="50000" value="1000000" />
+      <div class="range-labels"><span id="taxRangeMin">₹0</span><span id="taxRangeMax">₹1Cr</span></div>
+    </div>
+    <div class="field">
+      <label>Deductions / Exemptions <span class="value-display" id="taxDeductDisplay">₹1,50,000</span></label>
+      <div class="input-wrap">
+        <span class="input-prefix" id="taxDeductPrefix">₹</span>
+        <input type="number" id="taxDeduct" value="150000" min="0" max="5000000" step="10000" />
+      </div>
+      <input type="range" id="taxDeductRange" min="0" max="1500000" step="10000" value="150000" />
+      <div class="range-labels"><span>₹0</span><span>₹15L</span></div>
+    </div>
+    <div class="field">
+      <label>Country / Tax Regime</label>
+      <div class="input-wrap">
+        <select class="field-select" id="taxCountry" onchange="calcTax()">
+          <option value="IN_NEW">🇮🇳 India — New Regime</option>
+          <option value="IN_OLD">🇮🇳 India — Old Regime</option>
+          <option value="US">🇺🇸 USA — Federal (2024)</option>
+          <option value="UK">🇬🇧 UK — Income Tax</option>
+          <option value="EU_DE">🇩🇪 Germany (approx.)</option>
+          <option value="AU">🇦🇺 Australia</option>
+          <option value="CA">🇨🇦 Canada (Federal)</option>
+          <option value="FLAT15">Flat 15% (Generic)</option>
+          <option value="FLAT20">Flat 20% (Generic)</option>
+          <option value="FLAT25">Flat 25% (Generic)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Tax Breakdown</div>
+    <div class="emi-highlight">
+      <div class="emi-label">Estimated Tax</div>
+      <div class="emi-amount" id="taxResult" style="color:var(--red);">₹0</div>
+      <div class="emi-period" id="taxEffRate">Effective rate: 0%</div>
+    </div>
+    <div class="chart-wrap">
+      <svg class="donut-svg" width="140" height="140" viewBox="0 0 140 140">
+        <circle cx="70" cy="70" r="54" fill="none" stroke="#E2E5E9" stroke-width="16" />
+        <circle id="taxDonutTax" cx="70" cy="70" r="54" fill="none" stroke="#DC2626" stroke-width="16" stroke-dasharray="339.3" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
+        <circle id="taxDonutTakeHome" cx="70" cy="70" r="54" fill="none" stroke="#059669" stroke-width="16" stroke-dasharray="339.3" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
+      </svg>
+      <div class="donut-center-text">
+        <div class="donut-center-pct" id="taxPct">0%</div>
+        <div class="donut-center-sub">Tax</div>
+      </div>
+    </div>
+    <div class="breakdown">
+      <div class="breakdown-row">
+        <div class="breakdown-label"><span class="dot" style="background:#DC2626;"></span>Tax Payable</div>
+        <div class="breakdown-value" id="taxPayable">₹0</div>
+      </div>
+      <div class="breakdown-row">
+        <div class="breakdown-label"><span class="dot dot-green"></span>Take-home</div>
+        <div class="breakdown-value" id="taxTakeHome">₹0</div>
+      </div>
+      <div class="breakdown-divider"></div>
+      <div class="breakdown-row">
+        <div class="breakdown-label"><span class="dot dot-total"></span>Monthly Take-home</div>
+        <div class="breakdown-value" id="taxMonthly">₹0</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!--  6. RETIREMENT PLANNER                          -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="calculator-wrap" id="section-retirement" style="display:none;">
+  <div class="panel">
+    <div class="panel-title">Your Details</div>
+    <div class="field">
+      <label>Current Age <span class="value-display" id="retAgeDisplay">30 yrs</span></label>
+      <div class="input-wrap">
+        <input type="number" id="retAge" value="30" min="18" max="60" step="1" style="padding-left:14px;" />
+        <span class="input-suffix">years</span>
+      </div>
+      <input type="range" id="retAgeRange" min="18" max="60" step="1" value="30" />
+      <div class="range-labels"><span>18</span><span>60</span></div>
+    </div>
+    <div class="field">
+      <label>Retirement Age <span class="value-display" id="retRetireDisplay">60 yrs</span></label>
+      <div class="input-wrap">
+        <input type="number" id="retRetire" value="60" min="40" max="75" step="1" style="padding-left:14px;" />
+        <span class="input-suffix">years</span>
+      </div>
+      <input type="range" id="retRetireRange" min="40" max="75" step="1" value="60" />
+      <div class="range-labels"><span>40</span><span>75</span></div>
+    </div>
+    <div class="field">
+      <label>Monthly Savings <span class="value-display" id="retSavingsDisplay">₹20,000</span></label>
+      <div class="input-wrap">
+        <span class="input-prefix" id="retPrefix">₹</span>
+        <input type="number" id="retSavings" value="20000" min="500" max="1000000" step="500" />
+      </div>
+      <input type="range" id="retSavingsRange" min="500" max="200000" step="500" value="20000" />
+      <div class="range-labels"><span id="retRangeMin">₹500</span><span id="retRangeMax">₹2L</span></div>
+    </div>
+    <div class="field">
+      <label>Expected Annual Return <span class="value-display" id="retRateDisplay">10%</span></label>
+      <div class="input-wrap">
+        <input type="number" id="retRate" value="10" min="1" max="25" step="0.5" style="padding-left:14px;" />
+        <span class="input-suffix">% p.a.</span>
+      </div>
+      <input type="range" id="retRateRange" min="1" max="25" step="0.5" value="10" />
+      <div class="range-labels"><span>1%</span><span>25%</span></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Retirement Corpus</div>
+    <div class="emi-highlight result-highlight-green">
+      <div class="emi-label">Projected Corpus</div>
+      <div class="emi-amount" id="retCorpus">₹0</div>
+      <div class="emi-period" id="retYearsLeft">in 0 years</div>
+    </div>
+    <div class="chart-wrap">
+      <svg class="donut-svg" width="140" height="140" viewBox="0 0 140 140">
+        <circle cx="70" cy="70" r="54" fill="none" stroke="#E2E5E9" stroke-width="16" />
+        <circle id="retDonutGain" cx="70" cy="70" r="54" fill="none" stroke="#F59E0B" stroke-width="16" stroke-dasharray="339.3" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
+        <circle id="retDonutSaved" cx="70" cy="70" r="54" fill="none" stroke="#4F46E5" stroke-width="16" stroke-dasharray="339.3" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" style="transition:stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
+      </svg>
+      <div class="donut-center-text">
+        <div class="donut-center-pct" id="retGrowthPct">0×</div>
+        <div class="donut-center-sub">Growth</div>
+      </div>
+    </div>
+    <div class="breakdown">
+      <div class="breakdown-row">
+        <div class="breakdown-label"><span class="dot dot-principal"></span>Total Invested</div>
+        <div class="breakdown-value" id="retTotalInvested">₹0</div>
+      </div>
+      <div class="breakdown-row">
+        <div class="breakdown-label"><span class="dot dot-amber"></span>Returns Earned</div>
+        <div class="breakdown-value" id="retReturns">₹0</div>
+      </div>
+      <div class="breakdown-divider"></div>
+      <div class="breakdown-row">
+        <div class="breakdown-label"><span class="dot dot-total"></span>Final Corpus</div>
+        <div class="breakdown-value" id="retFinal">₹0</div>
+      </div>
+    </div>
+    <div style="margin-top:1rem;text-align:center;">
+      <span class="info-badge" id="retMonthlyPension">≈ ₹0 /month for 20 years</span>
+    </div>
+  </div>
+</div>
+
+<!-- INFO SECTIONS -->
+<section id="mortgage" class="info-section">
+  <h2>Mortgage Calculator</h2>
+  <p>A mortgage is a loan used to purchase a home or property. Monthly mortgage payments typically include both principal and interest. Use the Loan EMI tab above to estimate your mortgage payments, total interest costs, and overall repayment amounts.</p>
+</section>
+<section id="carloan" class="info-section">
+  <h2>Car Loan Calculator</h2>
+  <p>A car loan helps finance the purchase of a new or used vehicle. Use the Loan EMI tab to estimate your monthly payments, compare loan terms, and understand the total cost of financing your car.</p>
+</section>
+<section id="personalloan" class="info-section">
+  <h2>Personal Loan Calculator</h2>
+  <p>Personal loans can be used for education, travel, medical expenses, or home improvements. Use the Loan EMI calculator to estimate monthly payments and total interest payable before applying.</p>
+</section>
+
+<section id="blog" class="info-section">
+  <h2>Financial Tips & Guides</h2>
+  <p><strong>How Monthly Payments Are Calculated:</strong> Monthly payments use the loan amount, interest rate, and repayment period. A lower rate or longer tenure reduces monthly payments but increases total interest.</p>
+  <p><strong>Power of SIP Investing:</strong> Systematic Investment Plans benefit from rupee-cost averaging and compounding. Starting early — even with small amounts — significantly increases your corpus over time.</p>
+  <p><strong>Compound Interest:</strong> Albert Einstein reportedly called it the "eighth wonder of the world." More frequent compounding (monthly vs annually) noticeably increases returns over long periods.</p>
+</section>
+
+<section id="contact" class="info-section">
+  <h2>Contact Us</h2>
+  <p>Have questions, suggestions, or feedback about LoanCalc? We'd love to hear from you.</p>
+  <p>Email: <a href="mailto:calculatorloan64@gmail.com">calculatorloan64@gmail.com</a></p>
+  <p>We aim to respond to all inquiries within 48 hours.</p>
+</section>
+
+<section id="terms" class="info-section">
+  <h2>Terms & Disclaimer</h2>
+  <p>This website provides free financial calculation tools for informational purposes only. We do not provide loans or financial advice. All calculations are estimates and may differ from actual bank or tax authority results. Users are responsible for verifying information with their respective financial institutions. Tax calculations are simplified estimates — consult a qualified tax professional for advice.</p>
+  <p style="font-size:0.8rem;color:var(--muted);">© 2026 LoanCalc. All rights reserved.</p>
+</section>
+
+<!-- MODALS -->
 <div class="modal-overlay" id="privacyModal">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('privacyModal')">✕</button>
-
     <div class="modal-title">Privacy Policy</div>
-
     <div class="modal-body">
       <p>Last updated: June 2026</p>
-
       <h3>No Personal Data Collection</h3>
-      <p>
-        LoanCalc does not collect, store, or share any personal data.
-        All calculations are performed locally in your browser and no data is sent to any server.
-      </p>
-
+      <p>LoanCalc does not collect, store, or share any personal data. All calculations are performed locally in your browser and no data is sent to any server.</p>
       <h3>No Cookies</h3>
-      <p>
-        This website does not use cookies or any tracking mechanisms.
-      </p>
-
+      <p>This website does not use cookies or any tracking mechanisms.</p>
       <h3>Third-Party Services</h3>
-      <p>
-        We may use third-party services such as Google Fonts and Google AdSense.
-        These services may collect basic technical data like browser type or requests to improve performance and serve ads.
-      </p>
-
-      <h3>Google AdSense (If Enabled)</h3>
-      <p>
-        If ads are shown, Google and its partners may use cookies to display relevant advertisements based on user interests.
-      </p>
-
-      <h3>External Links</h3>
-      <p>
-        We are not responsible for the privacy practices of external websites linked from this site.
-      </p>
+      <p>We may use third-party services such as Google Fonts and Google AdSense. These services may collect basic technical data like browser type to improve performance and serve ads.</p>
+      <h3>Google AdSense</h3>
+      <p>If ads are shown, Google and its partners may use cookies to display relevant advertisements based on user interests.</p>
     </div>
-
   </div>
 </div>
 
-<!-- ABOUT MODAL -->
 <div class="modal-overlay" id="aboutModal">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal('aboutModal')">✕</button>
-
     <div class="modal-title">About LoanCalc</div>
-
     <div class="modal-body">
       <p>Last updated: June 2026</p>
-
       <h3>What is LoanCalc?</h3>
-      <p>
-        LoanCalc is a simple and fast online loan calculator.
-        It helps users calculate monthly payments, interest, and total repayment instantly.
-      </p>
-
+      <p>LoanCalc is a free suite of financial calculators covering loan EMI, SIP returns, compound interest, currency conversion, income tax estimation, and retirement planning.</p>
       <h3>How it works</h3>
-      <p>
-        All calculations are done directly in your browser.
-        No data is sent to any server, making it fast, private, and secure.
-      </p>
-
+      <p>All calculations are done directly in your browser. No data is sent to any server — fast, private, and secure.</p>
       <h3>Features</h3>
-      <p>
-        ✔ Instant monthly payment calculation<br>
-        ✔ Simple and clean UI<br>
-        ✔ Works on mobile and desktop<br>
-        ✔ No login required<br>
-        ✔ 100% free to use
-      </p>
-
-      <h3>Our Goal</h3>
-      <p>
-        The goal of LoanCalc is to make financial calculations easy and accessible for everyone.
-      </p>
+      <p>✔ 6 calculators in one place<br>✔ Multi-currency support<br>✔ Works on mobile and desktop<br>✔ No login required<br>✔ 100% free</p>
     </div>
-
   </div>
 </div>
-<section style="margin-top:50px;text-align:center;">
- <div style="display:flex;flex-wrap:wrap;gap:15px;justify-content:center;margin-top:20px;">     
+
 <footer>
-  <p>LoanCalc — Free Loan & Mortgage Calculator &nbsp;·&nbsp; <a href="#" onclick="openModal('privacyModal')">Privacy</a> &nbsp;·&nbsp; <a href="#" onclick="openModal('aboutModal')">About</a></p>
-  <p style="margin-top:0.5rem;">Results are estimates. Consult your lender for exact figures.</p>
+  <p>LoanCalc — Free Financial Calculators &nbsp;·&nbsp; <a href="#" onclick="openModal('privacyModal')">Privacy</a> &nbsp;·&nbsp; <a href="#" onclick="openModal('aboutModal')">About</a></p>
+  <p style="margin-top:0.5rem;">Results are estimates. Consult your lender or financial advisor for exact figures.</p>
 </footer>
 
 <script>
-  // Currency definitions — fully independent, no conversion
-  const CURRENCIES = {
-    INR: { symbol: '₹', name: 'Indian Rupee',  flag: '🇮🇳', defaultLoan: 5000000, sliderMin: 100000,  sliderMax: 100000000, step: 100000, rangeMin: '₹1L',   rangeMax: '₹10Cr' },
-    USD: { symbol: '$', name: 'US Dollar',      flag: '🇺🇸', defaultLoan: 300000,  sliderMin: 10000,   sliderMax: 5000000,   step: 10000,  rangeMin: '$10K',  rangeMax: '$5M'   },
-    EUR: { symbol: '€', name: 'Euro',           flag: '🇪🇺', defaultLoan: 250000,  sliderMin: 10000,   sliderMax: 5000000,   step: 10000,  rangeMin: '€10K',  rangeMax: '€5M'   },
-    GBP: { symbol: '£', name: 'British Pound',  flag: '🇬🇧', defaultLoan: 250000,  sliderMin: 10000,   sliderMax: 5000000,   step: 10000,  rangeMin: '£10K',  rangeMax: '£5M'   },
-    JPY: { symbol: '¥', name: 'Japanese Yen',   flag: '🇯🇵', defaultLoan: 35000000,sliderMin: 1000000, sliderMax: 500000000, step: 500000, rangeMin: '¥1M',   rangeMax: '¥500M' },
-  };
+// ─── CURRENCY DEFINITIONS ───────────────────────────────────────────────
+const CURRENCIES = {
+  INR: { symbol:'₹', name:'Indian Rupee',   flag:'🇮🇳', defaultLoan:5000000,  sliderMin:100000,  sliderMax:100000000, step:100000, rangeMin:'₹1L',   rangeMax:'₹10Cr' },
+  USD: { symbol:'$', name:'US Dollar',      flag:'🇺🇸', defaultLoan:300000,   sliderMin:10000,   sliderMax:5000000,   step:10000,  rangeMin:'$10K',  rangeMax:'$5M'   },
+  EUR: { symbol:'€', name:'Euro',           flag:'🇪🇺', defaultLoan:250000,   sliderMin:10000,   sliderMax:5000000,   step:10000,  rangeMin:'€10K',  rangeMax:'€5M'   },
+  GBP: { symbol:'£', name:'British Pound',  flag:'🇬🇧', defaultLoan:250000,   sliderMin:10000,   sliderMax:5000000,   step:10000,  rangeMin:'£10K',  rangeMax:'£5M'   },
+  JPY: { symbol:'¥', name:'Japanese Yen',   flag:'🇯🇵', defaultLoan:35000000, sliderMin:1000000, sliderMax:500000000, step:500000, rangeMin:'¥1M',   rangeMax:'¥500M' },
+};
 
-  let activeCurrency = 'INR';
+// Indicative USD rates (for reference only)
+const FX = { USD:1, EUR:0.92, GBP:0.79, JPY:157, INR:83.5, CAD:1.37, AUD:1.54, CHF:0.9, CNY:7.25, BRL:4.97, MXN:16.9, SGD:1.34, AED:3.67, KRW:1340 };
+const FX_SYMBOLS = { USD:'$', EUR:'€', GBP:'£', JPY:'¥', INR:'₹', CAD:'C$', AUD:'A$', CHF:'Fr', CNY:'¥', BRL:'R$', MXN:'$', SGD:'S$', AED:'د.إ', KRW:'₩' };
 
-  function fmt(n) {
-    const cfg = CURRENCIES[activeCurrency];
-    const rounded = Math.round(n);
-    if (activeCurrency === 'INR') return cfg.symbol + rounded.toLocaleString('en-IN');
-    if (activeCurrency === 'JPY') return cfg.symbol + rounded.toLocaleString('ja-JP');
-    return cfg.symbol + rounded.toLocaleString('en-US');
-  }
+let activeCurrency = 'INR';
+let activeTab = 'loan';
 
-  function switchCurrency(code) {
-    activeCurrency = code;
-    const cfg = CURRENCIES[code];
+function fmt(n) {
+  const cfg = CURRENCIES[activeCurrency];
+  const rounded = Math.round(n);
+  if (activeCurrency === 'INR') return cfg.symbol + rounded.toLocaleString('en-IN');
+  if (activeCurrency === 'JPY') return cfg.symbol + rounded.toLocaleString('ja-JP');
+  return cfg.symbol + rounded.toLocaleString('en-US');
+}
 
-    // Highlight active button
-    document.querySelectorAll('.cur-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.code === code));
+function fmtAny(n, sym, isJPY) {
+  const r = Math.round(n * 100) / 100;
+  if (isJPY || sym === '¥') return sym + r.toLocaleString();
+  return sym + r.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
 
-    // Update input prefix symbol
-    document.getElementById('prefixSymbol').textContent = cfg.symbol;
+// ─── TAB SWITCHING ───────────────────────────────────────────────────────
+const heroTitles = {
+  loan:       ['Know your monthly payment before you sign anything.', 'Enter your loan details and get a full breakdown — monthly payment, total interest, and year-by-year schedule.'],
+  sip:        ['Grow your wealth with systematic investing.', 'See how your monthly SIP contributions compound over time into a sizeable corpus.'],
+  compound:   ['Watch your money multiply with compound interest.', 'Calculate how your principal grows exponentially over time with different compounding frequencies.'],
+  currency:   ['Convert currencies with live indicative rates.', 'Quickly convert between 14 global currencies for travel, business, or investment planning.'],
+  tax:        ['Estimate your income tax before filing.', 'Get a quick tax breakdown for multiple countries and regimes — know your take-home pay instantly.'],
+  retirement: ['Plan your retirement corpus today.', 'Find out how much you will accumulate by retirement based on your monthly savings and investment returns.'],
+};
 
-    // Update slider bounds and default value
-    const loanInput = document.getElementById('loanAmount');
-    const loanRange = document.getElementById('loanAmountRange');
-    loanInput.min = cfg.sliderMin; loanInput.max = cfg.sliderMax; loanInput.step = cfg.step; loanInput.value = cfg.defaultLoan;
-    loanRange.min = cfg.sliderMin; loanRange.max = cfg.sliderMax; loanRange.step = cfg.step; loanRange.value = cfg.defaultLoan;
-    document.getElementById('rangeMin').textContent = cfg.rangeMin;
-    document.getElementById('rangeMax').textContent = cfg.rangeMax;
-    document.getElementById('loanAmountDisplay').textContent = fmt(cfg.defaultLoan);
+function switchTab(tab) {
+  activeTab = tab;
+  // Hide all sections
+  ['loan','sip','compound','currency','tax','retirement'].forEach(t => {
+    const s = document.getElementById('section-'+t);
+    if (s) s.style.display = 'none';
+  });
+  document.getElementById('amortSection').style.display = tab === 'loan' ? '' : 'none';
 
-    // Update info banner
-    document.getElementById('bannerFlag').textContent = cfg.flag;
-    document.getElementById('bannerText').textContent = 'Showing amounts in ' + cfg.name + ' (' + code + ')';
+  // Show selected
+  document.getElementById('section-'+tab).style.display = (tab === 'currency') ? 'grid' : 'grid';
+  document.getElementById('section-'+tab).style.removeProperty('display');
+  document.getElementById('section-'+tab).style.display = 'grid';
 
-    calculate();
-  }
-
-  // Sync slider pairs
-  function syncPair(inputId, rangeId, displayId, formatter) {
-    const input = document.getElementById(inputId);
-    const range = document.getElementById(rangeId);
-    const display = document.getElementById(displayId);
-    input.addEventListener('input', () => { range.value = input.value; display.textContent = formatter(input.value); calculate(); });
-    range.addEventListener('input', () => { input.value = range.value; display.textContent = formatter(range.value); calculate(); });
-  }
-
-  syncPair('loanAmount', 'loanAmountRange', 'loanAmountDisplay', v => fmt(parseFloat(v)));
-  syncPair('interestRate', 'interestRateRange', 'interestRateDisplay', v => parseFloat(v).toFixed(1) + '%');
-  syncPair('tenure', 'tenureRange', 'tenureDisplay', v => v + ' yrs');
-
-  // Donut
-  const CIRC = 2 * Math.PI * 54;
-  function updateDonut(P, I) {
-    const total = P + I; if (!total) return;
-    const iPct = I / total, pPct = P / total;
-    const iDash = iPct * CIRC, pDash = pPct * CIRC;
-    const dI = document.getElementById('donutInterest');
-    dI.setAttribute('stroke-dasharray', iDash + ' ' + (CIRC - iDash));
-    dI.setAttribute('stroke-dashoffset', 0);
-    const dP = document.getElementById('donutPrincipal');
-    dP.setAttribute('stroke-dasharray', pDash + ' ' + (CIRC - pDash));
-    dP.setAttribute('stroke-dashoffset', -iDash);
-    document.getElementById('interestPct').textContent = Math.round(iPct * 100) + '%';
-  }
-
-  // Amortization toggle
-  let showAll = false;
-  document.getElementById('toggleTable').addEventListener('click', () => {
-    showAll = !showAll;
-    document.getElementById('toggleTable').textContent = showAll ? 'Show less \u2191' : 'Show all years \u2193';
-    calculate();
+  // Tabs highlight
+  document.querySelectorAll('.calc-tab').forEach((btn, i) => {
+    btn.classList.toggle('active', ['loan','sip','compound','currency','tax','retirement'][i] === tab);
   });
 
-  function calculate() {
-    const P = parseFloat(document.getElementById('loanAmount').value);
-    const annualRate = parseFloat(document.getElementById('interestRate').value);
-    const years = parseInt(document.getElementById('tenure').value);
-    if (!P || !annualRate || !years) return;
+  // Hero text
+  document.getElementById('heroTitle').textContent = heroTitles[tab][0];
+  document.getElementById('heroDesc').textContent = heroTitles[tab][1];
 
-    const r = annualRate / 12 / 100;
-    const n = years * 12;
-    const emi = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
-    const totalPay = emi * n;
-    const totalInterest = totalPay - P;
+  // Show/hide currency switcher (not relevant for currency converter or tax)
+  document.getElementById('currencyBanner').style.display = (tab === 'currency') ? 'none' : '';
+  document.getElementById('currencySwitcher').style.display = (tab === 'currency') ? 'none' : '';
 
-    document.getElementById('emiResult').textContent = fmt(emi);
-    document.getElementById('emiPeriod').textContent = 'for ' + n + ' months';
-    document.getElementById('principalTotal').textContent = fmt(P);
-    document.getElementById('interestTotal').textContent = fmt(totalInterest);
-    document.getElementById('totalPayment').textContent = fmt(totalPay);
-    updateDonut(P, totalInterest);
+  // Recalc
+  if (tab === 'loan') calculate();
+  if (tab === 'sip') calcSIP();
+  if (tab === 'compound') calcCompound();
+  if (tab === 'currency') calcCurrency();
+  if (tab === 'tax') calcTax();
+  if (tab === 'retirement') calcRetirement();
+}
 
-    let balance = P;
-    const tbody = document.getElementById('amortBody');
-    tbody.innerHTML = '';
-    const maxYears = showAll ? years : Math.min(5, years);
-    for (let y = 1; y <= maxYears; y++) {
-      let yP = 0, yI = 0;
-      for (let m = 1; m <= 12; m++) {
-        if ((y - 1) * 12 + m > n) break;
-        const intPart = balance * r;
-        const prinPart = emi - intPart;
-        yI += intPart; yP += prinPart; balance -= prinPart;
-      }
-      const tr = document.createElement('tr');
-      tr.className = 'year-row';
-      tr.innerHTML = '<td>Year ' + y + '</td><td>' + fmt(yP) + '</td><td>' + fmt(yI) + '</td><td>' + fmt(yP + yI) + '</td><td class="positive">' + fmt(Math.max(0, balance)) + '</td>';
-      tbody.appendChild(tr);
-    }
-    if (!showAll && years > 5) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = '<td colspan="5" style="text-align:center;color:var(--muted);padding:1rem;font-size:0.8125rem;">Showing 5 of ' + years + ' years \u2014 click \u201cShow all years\u201d above</td>';
-      tbody.appendChild(tr);
-    }
-  }
+// ─── CURRENCY SWITCHER ───────────────────────────────────────────────────
+function switchCurrency(code) {
+  activeCurrency = code;
+  const cfg = CURRENCIES[code];
+  document.querySelectorAll('.cur-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.code === code));
+  document.getElementById('prefixSymbol').textContent = cfg.symbol;
+  const loanInput = document.getElementById('loanAmount');
+  const loanRange = document.getElementById('loanAmountRange');
+  loanInput.min = cfg.sliderMin; loanInput.max = cfg.sliderMax; loanInput.step = cfg.step; loanInput.value = cfg.defaultLoan;
+  loanRange.min = cfg.sliderMin; loanRange.max = cfg.sliderMax; loanRange.step = cfg.step; loanRange.value = cfg.defaultLoan;
+  document.getElementById('rangeMin').textContent = cfg.rangeMin;
+  document.getElementById('rangeMax').textContent = cfg.rangeMax;
+  document.getElementById('loanAmountDisplay').textContent = fmt(cfg.defaultLoan);
+  document.getElementById('bannerFlag').textContent = cfg.flag;
+  document.getElementById('bannerText').textContent = 'Showing amounts in ' + cfg.name + ' (' + code + ')';
+  // Update other calc prefixes
+  ['sipPrefix','ciPrefix','taxPrefix','taxDeductPrefix','retPrefix'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = cfg.symbol;
+  });
+  // Update SIP range labels
+  document.getElementById('sipRangeMin').textContent = cfg.symbol + '500';
+  document.getElementById('sipRangeMax').textContent = cfg.symbol + '5L';
+  document.getElementById('retRangeMin').textContent = cfg.symbol + '500';
+  document.getElementById('retRangeMax').textContent = cfg.symbol + '2L';
+  document.getElementById('taxRangeMin').textContent = cfg.symbol + '0';
+  document.getElementById('taxRangeMax').textContent = cfg.symbol + '1Cr';
+  document.getElementById('ciRangeMin').textContent = cfg.symbol + '1K';
+  document.getElementById('ciRangeMax').textContent = cfg.symbol + '1Cr';
+  if (activeTab === 'loan') calculate();
+  if (activeTab === 'sip') calcSIP();
+  if (activeTab === 'compound') calcCompound();
+  if (activeTab === 'tax') calcTax();
+  if (activeTab === 'retirement') calcRetirement();
+}
 
+// ─── SYNC SLIDER PAIRS ────────────────────────────────────────────────────
+function syncPair(inputId, rangeId, displayId, formatter) {
+  const input = document.getElementById(inputId);
+  const range = document.getElementById(rangeId);
+  const display = document.getElementById(displayId);
+  if (!input || !range) return;
+  const handler = (src, dst) => () => { dst.value = src.value; if(display) display.textContent = formatter(src.value); recalcActive(); };
+  input.addEventListener('input', handler(input, range));
+  range.addEventListener('input', handler(range, input));
+}
+
+function recalcActive() {
+  if (activeTab === 'loan') calculate();
+  if (activeTab === 'sip') calcSIP();
+  if (activeTab === 'compound') calcCompound();
+  if (activeTab === 'tax') calcTax();
+  if (activeTab === 'retirement') calcRetirement();
+}
+
+syncPair('loanAmount','loanAmountRange','loanAmountDisplay', v => fmt(parseFloat(v)));
+syncPair('interestRate','interestRateRange','interestRateDisplay', v => parseFloat(v).toFixed(1)+'%');
+syncPair('tenure','tenureRange','tenureDisplay', v => v+' yrs');
+syncPair('sipAmount','sipAmountRange','sipAmountDisplay', v => fmt(parseFloat(v)));
+syncPair('sipRate','sipRateRange','sipRateDisplay', v => parseFloat(v).toFixed(1)+'%');
+syncPair('sipYears','sipYearsRange','sipYearsDisplay', v => v+' yrs');
+syncPair('ciPrincipal','ciPrincipalRange','ciPrincipalDisplay', v => fmt(parseFloat(v)));
+syncPair('ciRate','ciRateRange','ciRateDisplay', v => parseFloat(v).toFixed(1)+'%');
+syncPair('ciYears','ciYearsRange','ciYearsDisplay', v => v+' yrs');
+syncPair('taxIncome','taxIncomeRange','taxIncomeDisplay', v => fmt(parseFloat(v)));
+syncPair('taxDeduct','taxDeductRange','taxDeductDisplay', v => fmt(parseFloat(v)));
+syncPair('retAge','retAgeRange','retAgeDisplay', v => v+' yrs');
+syncPair('retRetire','retRetireRange','retRetireDisplay', v => v+' yrs');
+syncPair('retSavings','retSavingsRange','retSavingsDisplay', v => fmt(parseFloat(v)));
+syncPair('retRate','retRateRange','retRateDisplay', v => parseFloat(v).toFixed(1)+'%');
+
+// ─── DONUT HELPER ────────────────────────────────────────────────────────
+const CIRC = 2 * Math.PI * 54;
+function updateDonut(id1, id2, pct1, labelId, pctText) {
+  const d1 = CIRC * pct1, d2 = CIRC * (1-pct1);
+  const el1 = document.getElementById(id1), el2 = document.getElementById(id2);
+  if (!el1 || !el2) return;
+  el1.setAttribute('stroke-dasharray', d1+' '+(CIRC-d1));
+  el1.setAttribute('stroke-dashoffset', 0);
+  el2.setAttribute('stroke-dasharray', d2+' '+(CIRC-d2));
+  el2.setAttribute('stroke-dashoffset', -d1);
+  if (labelId) document.getElementById(labelId).textContent = pctText;
+}
+
+// ─── 1. LOAN EMI ─────────────────────────────────────────────────────────
+let showAll = false;
+document.getElementById('toggleTable').addEventListener('click', () => {
+  showAll = !showAll;
+  document.getElementById('toggleTable').textContent = showAll ? 'Show less ↑' : 'Show all years ↓';
   calculate();
-  function openModal(id) {
-    document.getElementById(id).classList.add('open');
-    document.body.style.overflow = 'hidden';
+});
+
+function calculate() {
+  const P = parseFloat(document.getElementById('loanAmount').value);
+  const annualRate = parseFloat(document.getElementById('interestRate').value);
+  const years = parseInt(document.getElementById('tenure').value);
+  if (!P || !annualRate || !years) return;
+  const r = annualRate / 12 / 100;
+  const n = years * 12;
+  const emi = P * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
+  const totalPay = emi * n;
+  const totalInterest = totalPay - P;
+  document.getElementById('emiResult').textContent = fmt(emi);
+  document.getElementById('emiPeriod').textContent = 'for ' + n + ' months';
+  document.getElementById('principalTotal').textContent = fmt(P);
+  document.getElementById('interestTotal').textContent = fmt(totalInterest);
+  document.getElementById('totalPayment').textContent = fmt(totalPay);
+  const iPct = totalInterest / totalPay;
+  updateDonut('donutInterest','donutPrincipal', iPct, 'interestPct', Math.round(iPct*100)+'%');
+  // Amortization
+  let balance = P;
+  const tbody = document.getElementById('amortBody');
+  tbody.innerHTML = '';
+  const maxYears = showAll ? years : Math.min(5, years);
+  for (let y = 1; y <= maxYears; y++) {
+    let yP=0, yI=0;
+    for (let m=1; m<=12; m++) {
+      if ((y-1)*12+m > n) break;
+      const intPart = balance * r;
+      const prinPart = emi - intPart;
+      yI += intPart; yP += prinPart; balance -= prinPart;
+    }
+    const tr = document.createElement('tr');
+    tr.className = 'year-row';
+    tr.innerHTML = '<td>Year '+y+'</td><td>'+fmt(yP)+'</td><td>'+fmt(yI)+'</td><td>'+fmt(yP+yI)+'</td><td class="positive">'+fmt(Math.max(0,balance))+'</td>';
+    tbody.appendChild(tr);
   }
-  function closeModal(id) {
-    document.getElementById(id).classList.remove('open');
-    document.body.style.overflow = '';
+  if (!showAll && years > 5) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td colspan="5" style="text-align:center;color:var(--muted);padding:1rem;font-size:0.8125rem;">Showing 5 of '+years+' years — click "Show all years" above</td>';
+    tbody.appendChild(tr);
   }
-  // Close on overlay click
-  document.querySelectorAll('.modal-overlay').forEach(overlay => {
-    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(overlay.id); });
+}
+
+// ─── 2. SIP ──────────────────────────────────────────────────────────────
+function calcSIP() {
+  const monthly = parseFloat(document.getElementById('sipAmount').value) || 0;
+  const rate = parseFloat(document.getElementById('sipRate').value) || 0;
+  const years = parseInt(document.getElementById('sipYears').value) || 0;
+  const r = rate / 12 / 100;
+  const n = years * 12;
+  const maturity = monthly * ((Math.pow(1+r,n)-1)/r) * (1+r);
+  const invested = monthly * n;
+  const returns = maturity - invested;
+  document.getElementById('sipReturns').textContent = fmt(returns);
+  document.getElementById('sipMaturity').textContent = 'Maturity Value: '+fmt(maturity);
+  document.getElementById('sipInvested').textContent = fmt(invested);
+  document.getElementById('sipEstReturns').textContent = fmt(returns);
+  document.getElementById('sipTotalValue').textContent = fmt(maturity);
+  const gainPct = invested > 0 ? returns/maturity : 0;
+  document.getElementById('sipGainPct').textContent = Math.round(gainPct*100)+'%';
+  updateDonut('sipDonutReturns','sipDonutInvested', gainPct, null, '');
+  document.getElementById('sipGainPct').textContent = Math.round(gainPct*100)+'%';
+}
+
+// ─── 3. COMPOUND INTEREST ────────────────────────────────────────────────
+function calcCompound() {
+  const P = parseFloat(document.getElementById('ciPrincipal').value) || 0;
+  const rate = parseFloat(document.getElementById('ciRate').value) || 0;
+  const years = parseInt(document.getElementById('ciYears').value) || 0;
+  const n = parseInt(document.getElementById('ciFreq').value) || 12;
+  const total = P * Math.pow(1 + rate/100/n, n*years);
+  const interest = total - P;
+  document.getElementById('ciTotal').textContent = fmt(total);
+  document.getElementById('ciGainLine').textContent = 'Gain: '+fmt(interest);
+  document.getElementById('ciPrincipalOut').textContent = fmt(P);
+  document.getElementById('ciInterestOut').textContent = fmt(interest);
+  document.getElementById('ciTotalOut').textContent = fmt(total);
+  const gainPct = total > 0 ? interest/total : 0;
+  document.getElementById('ciGainPct').textContent = Math.round(gainPct*100)+'%';
+  updateDonut('ciDonutGain','ciDonutPrincipal', gainPct, null, '');
+  document.getElementById('ciGainPct').textContent = Math.round(gainPct*100)+'%';
+}
+
+// ─── 4. CURRENCY CONVERTER ───────────────────────────────────────────────
+function calcCurrency() {
+  const amt = parseFloat(document.getElementById('convAmount').value) || 0;
+  const from = document.getElementById('convFrom').value;
+  const to = document.getElementById('convTo').value;
+  const usd = amt / FX[from];
+  const result = usd * FX[to];
+  const rate = FX[to] / FX[from];
+  const sym = FX_SYMBOLS[to];
+  document.getElementById('convResult').textContent = sym + result.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('convRate').textContent = '1 '+from+' = '+rate.toFixed(4)+' '+to+' (indicative)';
+  // Rate grid
+  const grid = document.getElementById('rateGrid');
+  grid.innerHTML = '';
+  Object.keys(FX).forEach(code => {
+    if (code === 'USD') return;
+    const r = FX[code];
+    const div = document.createElement('div');
+    div.style.cssText = 'background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.8125rem;';
+    div.innerHTML = '<span style="font-weight:600;color:var(--navy);">'+code+'</span> <span style="color:var(--slate);">'+FX_SYMBOLS[code]+r.toFixed(code==='KRW'?0:2)+'</span>';
+    grid.appendChild(div);
   });
+}
+
+function swapCurrencies() {
+  const f = document.getElementById('convFrom').value;
+  const t = document.getElementById('convTo').value;
+  document.getElementById('convFrom').value = t;
+  document.getElementById('convTo').value = f;
+  calcCurrency();
+}
+
+// ─── 5. TAX ESTIMATOR ────────────────────────────────────────────────────
+function calcTax() {
+  const income = parseFloat(document.getElementById('taxIncome').value) || 0;
+  const deduct = parseFloat(document.getElementById('taxDeduct').value) || 0;
+  const regime = document.getElementById('taxCountry').value;
+  const taxable = Math.max(0, income - deduct);
+  let tax = computeTax(taxable, regime);
+  // Update prefix symbol based on regime
+  const sym = regime.startsWith('IN') ? '₹' : regime === 'US' ? '$' : regime === 'UK' ? '£' : regime === 'AU' ? 'A$' : regime === 'CA' ? 'C$' : regime === 'EU_DE' ? '€' : '~';
+  const takeHome = income - tax;
+  const effRate = income > 0 ? tax/income*100 : 0;
+  document.getElementById('taxResult').textContent = sym + Math.round(tax).toLocaleString();
+  document.getElementById('taxEffRate').textContent = 'Effective rate: '+effRate.toFixed(1)+'%';
+  document.getElementById('taxPayable').textContent = sym + Math.round(tax).toLocaleString();
+  document.getElementById('taxTakeHome').textContent = sym + Math.round(takeHome).toLocaleString();
+  document.getElementById('taxMonthly').textContent = sym + Math.round(takeHome/12).toLocaleString();
+  const taxPct = income > 0 ? tax/income : 0;
+  document.getElementById('taxPct').textContent = Math.round(taxPct*100)+'%';
+  updateDonut('taxDonutTax','taxDonutTakeHome', taxPct, null, '');
+  document.getElementById('taxPct').textContent = Math.round(taxPct*100)+'%';
+}
+
+function computeTax(taxable, regime) {
+  // Simplified slab calculations
+  if (regime === 'IN_NEW') {
+    // India New Tax Regime FY 2024-25
+    const slabs = [[300000,0],[300000,0.05],[300000,0.10],[300000,0.15],[300000,0.20],[Infinity,0.30]];
+    return applySlabs(taxable, slabs);
+  }
+  if (regime === 'IN_OLD') {
+    const slabs = [[250000,0],[250000,0.05],[500000,0.20],[Infinity,0.30]];
+    return applySlabs(taxable, slabs);
+  }
+  if (regime === 'US') {
+    // 2024 Single filer federal
+    const slabs = [[11600,0.10],[35550,0.12],[53575,0.22],[91950,0.24],[103350,0.32],[197300,0.35],[Infinity,0.37]];
+    return applySlabs(taxable, slabs);
+  }
+  if (regime === 'UK') {
+    // 2024-25: personal allowance 12570, 20%/40%/45%
+    const adj = Math.max(0, taxable - 12570);
+    const slabs = [[37700,0.20],[87440,0.40],[Infinity,0.45]];
+    return applySlabs(adj, slabs);
+  }
+  if (regime === 'AU') {
+    // ATO 2024-25
+    const slabs = [[18200,0],[26800,0.19],[45000,0.325],[90000,0.37],[Infinity,0.45]];
+    return applySlabs(taxable, slabs);
+  }
+  if (regime === 'CA') {
+    // Canada Federal 2024
+    const slabs = [[55867,0.15],[55866,0.205],[64533,0.26],[70626,0.29],[Infinity,0.33]];
+    return applySlabs(taxable, slabs);
+  }
+  if (regime === 'EU_DE') {
+    // Germany approx. simplified
+    if (taxable <= 11604) return 0;
+    if (taxable <= 66761) return (taxable - 11604) * 0.14 * (1 + (taxable-11604)/100000*0.28);
+    if (taxable <= 277826) return taxable * 0.42 - 9972;
+    return taxable * 0.45 - 18307;
+  }
+  if (regime === 'FLAT15') return taxable * 0.15;
+  if (regime === 'FLAT20') return taxable * 0.20;
+  if (regime === 'FLAT25') return taxable * 0.25;
+  return 0;
+}
+
+function applySlabs(income, slabs) {
+  let tax = 0, rem = income;
+  for (const [limit, rate] of slabs) {
+    if (rem <= 0) break;
+    const slice = Math.min(rem, limit);
+    tax += slice * rate;
+    rem -= slice;
+  }
+  return tax;
+}
+
+// ─── 6. RETIREMENT PLANNER ───────────────────────────────────────────────
+function calcRetirement() {
+  const currAge = parseInt(document.getElementById('retAge').value) || 30;
+  const retireAge = parseInt(document.getElementById('retRetire').value) || 60;
+  const monthly = parseFloat(document.getElementById('retSavings').value) || 0;
+  const rate = parseFloat(document.getElementById('retRate').value) || 0;
+  const years = Math.max(0, retireAge - currAge);
+  const r = rate / 12 / 100;
+  const n = years * 12;
+  const corpus = monthly * ((Math.pow(1+r,n)-1)/r) * (1+r);
+  const invested = monthly * n;
+  const returns = corpus - invested;
+  const multiplier = invested > 0 ? corpus/invested : 1;
+  // Monthly pension estimate (4% withdrawal rule, 20 years)
+  const monthly4pct = corpus * 0.04 / 12;
+  document.getElementById('retCorpus').textContent = fmt(corpus);
+  document.getElementById('retYearsLeft').textContent = 'in '+years+' years (age '+retireAge+')';
+  document.getElementById('retTotalInvested').textContent = fmt(invested);
+  document.getElementById('retReturns').textContent = fmt(returns);
+  document.getElementById('retFinal').textContent = fmt(corpus);
+  document.getElementById('retGrowthPct').textContent = multiplier.toFixed(1)+'×';
+  document.getElementById('retMonthlyPension').textContent = '≈ '+fmt(monthly4pct)+'/month (4% rule)';
+  const gainPct = corpus > 0 ? returns/corpus : 0;
+  updateDonut('retDonutGain','retDonutSaved', gainPct, null, '');
+  document.getElementById('retGrowthPct').textContent = multiplier.toFixed(1)+'×';
+}
+
+// ─── MODAL HELPERS ───────────────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(overlay.id); });
+});
+
+// ─── INIT ────────────────────────────────────────────────────────────────
+calculate();
+calcSIP();
+calcCompound();
+calcCurrency();
+calcTax();
+calcRetirement();
 </script>
-     
-<section id="mortgage" style="max-width:800px;margin:40px auto;padding:25px;background:#0F1B2D;color:white;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.15);">
-  <h2 style="color:white;">Mortgage Calculator</h2>
-  <p>
-    A mortgage is a loan used to purchase a home or property. Monthly mortgage payments typically include both principal and interest. Our mortgage calculator helps estimate monthly payments, total interest costs, and overall repayment amounts.
-  </p>
-</section>
-
-<section id="carloan" style="max-width:800px;margin:40px auto;padding:25px;background:#0F1B2D;color:white;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.15);">
-  <h2 style="color:white;">Car Loan Calculator</h2>
-  <p>
-    A car loan helps finance the purchase of a new or used vehicle. Use this calculator to estimate your monthly payments, compare loan terms, and understand the total cost of financing your car.
-  </p>
-</section>
-
-<section id="personalloan" style="max-width:800px;margin:40px auto;padding:25px;background:#0F1B2D;color:white;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.15);">
-  <h2 style="color:white;">Personal Loan Calculator</h2>
-  <p>
-    Personal loans can be used for education, travel, medical expenses, home improvements, or emergencies. This calculator helps estimate monthly payments and total interest payable before applying for a loan.
-  </p>
-</section>
-
-<section id="blog" style="max-width:800px;margin:40px auto;padding:25px;background:#0F1B2D;color:white;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.15);">
-  <h2 style="color:white;">Loan Tips & Financial Guides</h2>
-
-  <h3 style="color:white;">How Monthly Payments Are Calculated</h3>
-  <p>
-    Monthly payments are calculated using the loan amount, interest rate, and repayment period. A lower interest rate or longer tenure can reduce monthly payments.
-  </p>
-
-  <h3 style="color:white;">Choosing the Right Loan</h3>
-  <p>
-    Before taking a loan, compare interest rates, processing fees, repayment flexibility, and lender reputation to find the most suitable option.
-  </p>
-
-  <h3 style="color:white;">Reducing Loan Interest Costs</h3>
-  <p>
-    Making larger down payments, choosing shorter loan terms, and maintaining a good credit history can help reduce overall interest costs.
-  </p>
-</section>
-
-<section id="contact" style="max-width: 800px; margin: 40px auto; padding: 20px;">   
-  
-     <h2>Contact Us</h2>
-    <p>
-        Have questions, suggestions, or feedback about LoanCalc?
-        We'd love to hear from you.
-    </p>
-
-    <p>
-        Email: <a href="calculatorloan64@email.com">calculatorloan64@gmail.com</a>
-    </p>
-
-    <p>
-        We aim to respond to all inquiries within 48 hours.
-    </p>
-     <section id="terms" style="max-width:900px;margin:40px auto;padding:20px;font-family:Arial,sans-serif;line-height:1.6;color:#333;">
-  
-  <h2 style="color:#0d47a1;">Terms & Conditions</h2>
-  
-  <p>Welcome to our Loan Calculator website. By using this website, you agree to the following terms and conditions:</p>
-
-  <ul>
-    <li>This website provides free financial calculation tools for informational purposes only.</li>
-    <li>We do not provide loans or financial services.</li>
-    <li>All calculations are estimates and may differ from actual bank results.</li>
-    <li>Users are responsible for verifying information with their respective financial institutions.</li>
-    <li>We are not liable for any financial decisions made based on the results of this website.</li>
-    <li>We reserve the right to update or change content anytime without prior notice.</li>
-  </ul>
-
-  <h2 style="color:#0d47a1;margin-top:30px;">Disclaimer</h2>
-
-  <p>
-    The information and calculation results provided by this website are for educational and informational purposes only.
-    While we try to ensure accuracy, we do not guarantee that all calculations are 100% correct or match real lender values.
-  </p>
-
-  <p>
-    Users should consult their bank or financial advisor before making any financial decisions. We are not responsible for any loss or damage arising from the use of this tool.
-  </p>
-
-  <p>
-    By using this website, you acknowledge and agree that all results are approximate and should not be considered official financial advice.
-  </p>
-
-  <hr style="margin-top:20px;">
-
-  <p style="font-size:12px;color:gray;">
-    © 2026 LoanCalc. All rights reserved.
-  </p>
-
-</section>
 </body>
 </html>
