@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Personal Loan EMI Calculator</title>
+  <style>
+    body{font-family:Arial;text-align:center;padding:20px;background:#f5f7fb;}
+    input,button{padding:10px;margin:5px;width:200px;}
+    button{background:#0d47a1;color:white;border:none;cursor:pointer;}
+  </style>
+</head>
+<body>
+
+<h2>Personal Loan EMI Calculator</h2>
+
+<input id="p" placeholder="Loan Amount"><br>
+<input id="r" placeholder="Interest Rate %"><br>
+<input id="n" placeholder="Years"><br>
+
+<button onclick="calc()">Calculate</button>
+
+<h3 id="result"></h3>
+
+<script>
+function calc(){
+  let p = +document.getElementById("p").value;
+  let r = +document.getElementById("r").value / 12 / 100;
+  let n = +document.getElementById("n").value * 12;
+
+  let emi = (p*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+
+  document.getElementById("result").innerText =
+  "Monthly EMI: ₹" + emi.toFixed(2);
+}
+</script>
+
+</body>
+</html>
