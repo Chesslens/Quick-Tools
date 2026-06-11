@@ -1,37 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>FD Calculator</title>
-  <style>
-    body{font-family:Arial;text-align:center;padding:20px;background:#f5f7fb;}
-    input,button{padding:10px;margin:5px;width:200px;}
-    button{background:#0d47a1;color:white;border:none;cursor:pointer;}
-  </style>
-</head>
-<body>
-
-<h2>Fixed Deposit Calculator</h2>
-
-<input id="p" placeholder="Amount"><br>
-<input id="r" placeholder="Interest Rate %"><br>
-<input id="t" placeholder="Years"><br>
-
-<button onclick="calc()">Calculate</button>
-
-<h3 id="result"></h3>
-
-<script>
 function calc(){
-  let p = +document.getElementById("p").value;
-  let r = +document.getElementById("r").value / 100;
-  let t = +document.getElementById("t").value;
+  let p = +document.getElementById("a").value;
+  let r = +document.getElementById("b").value / 100;
+  let t = +document.getElementById("c").value;
 
-  let a = p * Math.pow((1 + r), t);
+  let val = p * Math.pow(1+r,t);
 
   document.getElementById("result").innerText =
-  "Maturity: ₹" + a.toFixed(2);
+    "Maturity: ₹" + val.toFixed(2);
 }
-</script>
-
-</body>
-</html>
