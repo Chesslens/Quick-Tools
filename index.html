@@ -4,450 +4,117 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LoanCalc — Mortgage & EMI Calculator</title>
-  <meta name="description" content="Calculate your monthly mortgage or loan EMI instantly. See principal, interest breakdown, and full amortization schedule." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #F7F7F5;
-      --surface: #FFFFFF;
-      --navy: #0F1B2D;
-      --slate: #4A5568;
-      --muted: #9AA3AF;
-      --border: #E2E5E9;
-      --indigo: #4F46E5;
-      --indigo-light: #EEF2FF;
-      --green: #059669;
-      --green-light: #ECFDF5;
-      --red: #DC2626;
+      --bg: #F7F7F5; --surface: #FFFFFF; --navy: #0F1B2D; --slate: #4A5568;
+      --muted: #9AA3AF; --border: #E2E5E9; --indigo: #4F46E5;
+      --indigo-light: #EEF2FF; --green: #059669; --green-light: #ECFDF5; --red: #DC2626;
     }
-
     html { font-size: 16px; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--navy);
-      min-height: 100vh;
-      line-height: 1.5;
-    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--navy); min-height: 100vh; line-height: 1.5; }
 
     /* NAV */
-    nav {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .nav-logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.25rem;
-      color: var(--navy);
-      letter-spacing: -0.02em;
-    }
-
+    nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--navy); letter-spacing: -0.02em; }
     .nav-logo span { color: var(--indigo); }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--slate);
-      text-decoration: none;
-      transition: color 0.15s;
-    }
-
+    .nav-right { display: flex; align-items: center; gap: 2rem; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--slate); text-decoration: none; transition: color 0.15s; }
     .nav-links a:hover { color: var(--navy); }
 
+    /* CURRENCY SWITCHER */
+    .currency-switcher { display: flex; align-items: center; gap: 0.25rem; background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 3px; }
+    .cur-btn { display: flex; align-items: center; gap: 4px; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; color: var(--slate); background: none; border: none; border-radius: 5px; padding: 4px 9px; cursor: pointer; transition: background 0.15s, color 0.15s; white-space: nowrap; }
+    .cur-btn:hover { background: var(--surface); color: var(--navy); }
+    .cur-btn.active { background: var(--indigo); color: #fff; }
+    .cur-btn .cur-flag { font-size: 0.9rem; }
+
     /* HERO */
-    .hero {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 3.5rem 2rem 0;
-    }
+    .hero { max-width: 960px; margin: 0 auto; padding: 3.5rem 2rem 0; }
+    .hero-eyebrow { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--indigo); margin-bottom: 0.75rem; }
+    .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; letter-spacing: -0.02em; color: var(--navy); max-width: 520px; }
+    .hero p { margin-top: 1rem; font-size: 1rem; color: var(--slate); max-width: 460px; }
 
-    .hero-eyebrow {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--indigo);
-      margin-bottom: 0.75rem;
-    }
-
-    .hero h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(2rem, 5vw, 3rem);
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      color: var(--navy);
-      max-width: 520px;
-    }
-
-    .hero p {
-      margin-top: 1rem;
-      font-size: 1rem;
-      color: var(--slate);
-      max-width: 460px;
-    }
+    /* CURRENCY BANNER */
+    .currency-banner { max-width: 960px; margin: 1.25rem auto 0; padding: 0 2rem; }
+    .currency-banner-inner { display: flex; align-items: center; gap: 0.75rem; background: var(--indigo-light); border: 1px solid #C7D2FE; border-radius: 10px; padding: 0.6rem 1rem; font-size: 0.8125rem; color: var(--indigo); font-weight: 500; }
+    .currency-banner-inner .banner-flag { font-size: 1.1rem; }
 
     /* MAIN LAYOUT */
-    .calculator-wrap {
-      max-width: 960px;
-      margin: 2.5rem auto 4rem;
-      padding: 0 2rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      align-items: start;
-    }
+    .calculator-wrap { max-width: 960px; margin: 2.5rem auto 4rem; padding: 0 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
 
     /* PANEL */
-    .panel {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2rem;
-    }
-
-    .panel-title {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1.75rem;
-    }
+    .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; }
+    .panel-title { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.75rem; }
 
     /* INPUTS */
     .field { margin-bottom: 1.5rem; }
     .field:last-of-type { margin-bottom: 0; }
-
-    .field label {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--navy);
-      margin-bottom: 0.5rem;
-    }
-
-    .field label .value-display {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--indigo);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .input-wrap {
-      position: relative;
-    }
-
-    .input-prefix {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--muted);
-      pointer-events: none;
-    }
-
-    .input-suffix {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--muted);
-      pointer-events: none;
-    }
-
-    input[type="number"] {
-      width: 100%;
-      height: 44px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9375rem;
-      font-weight: 500;
-      color: var(--navy);
-      background: var(--bg);
-      padding: 0 2.5rem 0 2.25rem;
-      outline: none;
-      transition: border-color 0.15s;
-      -moz-appearance: textfield;
-    }
-
-    input[type="number"]::-webkit-outer-spin-button,
-    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
-
-    input[type="number"]:focus {
-      border-color: var(--indigo);
-      background: #fff;
-    }
+    .field label { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.875rem; font-weight: 500; color: var(--navy); margin-bottom: 0.5rem; }
+    .field label .value-display { font-size: 0.875rem; font-weight: 600; color: var(--indigo); font-variant-numeric: tabular-nums; }
+    .input-wrap { position: relative; }
+    .input-prefix { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 0.875rem; font-weight: 500; color: var(--muted); pointer-events: none; }
+    .input-suffix { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 0.875rem; font-weight: 500; color: var(--muted); pointer-events: none; }
+    input[type="number"] { width: 100%; height: 44px; border: 1.5px solid var(--border); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-weight: 500; color: var(--navy); background: var(--bg); padding: 0 2.5rem 0 2.25rem; outline: none; transition: border-color 0.15s; -moz-appearance: textfield; }
+    input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+    input[type="number"]:focus { border-color: var(--indigo); background: #fff; }
 
     /* RANGE SLIDER */
-    input[type="range"] {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 100%;
-      height: 4px;
-      background: var(--border);
-      border-radius: 4px;
-      margin-top: 0.75rem;
-      outline: none;
-      cursor: pointer;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--indigo);
-      border: 3px solid #fff;
-      box-shadow: 0 0 0 1.5px var(--indigo);
-      cursor: pointer;
-      transition: box-shadow 0.15s;
-    }
-
-    input[type="range"]::-webkit-slider-thumb:hover {
-      box-shadow: 0 0 0 4px var(--indigo-light);
-    }
-
-    input[type="range"]::-moz-range-thumb {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--indigo);
-      border: 3px solid #fff;
-      box-shadow: 0 0 0 1.5px var(--indigo);
-      cursor: pointer;
-    }
-
-    .range-labels {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 0.35rem;
-      font-size: 0.7rem;
-      color: var(--muted);
-      font-weight: 500;
-    }
+    input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; background: var(--border); border-radius: 4px; margin-top: 0.75rem; outline: none; cursor: pointer; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--indigo); border: 3px solid #fff; box-shadow: 0 0 0 1.5px var(--indigo); cursor: pointer; transition: box-shadow 0.15s; }
+    input[type="range"]::-webkit-slider-thumb:hover { box-shadow: 0 0 0 4px var(--indigo-light); }
+    input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--indigo); border: 3px solid #fff; box-shadow: 0 0 0 1.5px var(--indigo); cursor: pointer; }
+    .range-labels { display: flex; justify-content: space-between; margin-top: 0.35rem; font-size: 0.7rem; color: var(--muted); font-weight: 500; }
 
     /* RESULTS */
-    .emi-highlight {
-      text-align: center;
-      padding: 1.5rem 1rem;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 1.5rem;
-    }
+    .emi-highlight { text-align: center; padding: 1.5rem 1rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
+    .emi-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+    .emi-amount { font-family: 'DM Serif Display', serif; font-size: 2.75rem; letter-spacing: -0.03em; color: var(--navy); line-height: 1; }
+    .emi-period { font-size: 0.8125rem; color: var(--muted); margin-top: 0.3rem; }
 
-    .emi-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
-    }
-
-    .emi-amount {
-      font-family: 'DM Serif Display', serif;
-      font-size: 2.75rem;
-      letter-spacing: -0.03em;
-      color: var(--navy);
-      line-height: 1;
-    }
-
-    .emi-period {
-      font-size: 0.8125rem;
-      color: var(--muted);
-      margin-top: 0.3rem;
-    }
-
-    /* DONUT CHART */
-    .chart-wrap {
-      display: flex;
-      justify-content: center;
-      margin: 1.25rem 0 1.5rem;
-      position: relative;
-    }
-
+    /* DONUT */
+    .chart-wrap { display: flex; justify-content: center; margin: 1.25rem 0 1.5rem; position: relative; }
     .donut-svg { overflow: visible; }
-
-    .donut-center-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      pointer-events: none;
-    }
-
-    .donut-center-pct {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--navy);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .donut-center-sub {
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 1px;
-    }
+    .donut-center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; }
+    .donut-center-pct { font-size: 1.25rem; font-weight: 600; color: var(--navy); font-variant-numeric: tabular-nums; }
+    .donut-center-sub { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-top: 1px; }
 
     /* BREAKDOWN */
     .breakdown { display: flex; flex-direction: column; gap: 0.75rem; }
-
-    .breakdown-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .breakdown-label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.875rem;
-      color: var(--slate);
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
+    .breakdown-row { display: flex; align-items: center; justify-content: space-between; }
+    .breakdown-label { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--slate); }
+    .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
     .dot-principal { background: var(--indigo); }
     .dot-interest { background: #A78BFA; }
     .dot-total { background: var(--navy); }
+    .breakdown-value { font-size: 0.9375rem; font-weight: 600; color: var(--navy); font-variant-numeric: tabular-nums; }
+    .breakdown-divider { height: 1px; background: var(--border); margin: 0.25rem 0; }
 
-    .breakdown-value {
-      font-size: 0.9375rem;
-      font-weight: 600;
-      color: var(--navy);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .breakdown-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 0.25rem 0;
-    }
-
-    /* AMORTIZATION TABLE */
-    .amort-wrap {
-      max-width: 960px;
-      margin: 0 auto 4rem;
-      padding: 0 2rem;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.375rem;
-      letter-spacing: -0.01em;
-      color: var(--navy);
-    }
-
-    .show-toggle {
-      font-size: 0.8125rem;
-      font-weight: 500;
-      color: var(--indigo);
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 0;
-      font-family: inherit;
-    }
-
+    /* TABLE */
+    .amort-wrap { max-width: 960px; margin: 0 auto 4rem; padding: 0 2rem; }
+    .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1rem; }
+    .section-title { font-family: 'DM Serif Display', serif; font-size: 1.375rem; letter-spacing: -0.01em; color: var(--navy); }
+    .show-toggle { font-size: 0.8125rem; font-weight: 500; color: var(--indigo); cursor: pointer; background: none; border: none; padding: 0; font-family: inherit; }
     .show-toggle:hover { text-decoration: underline; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.875rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    thead tr {
-      background: var(--navy);
-    }
-
-    thead th {
-      padding: 0.75rem 1.25rem;
-      text-align: left;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.6);
-    }
-
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    thead tr { background: var(--navy); }
+    thead th { padding: 0.75rem 1.25rem; text-align: left; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
     thead th:not(:first-child) { text-align: right; }
-
     tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: var(--indigo-light); }
-
     tbody tr.year-row { background: #F9FAFB; }
     tbody tr.year-row td { font-weight: 600; color: var(--navy); }
-
-    td {
-      padding: 0.65rem 1.25rem;
-      color: var(--slate);
-      font-variant-numeric: tabular-nums;
-    }
-
+    td { padding: 0.65rem 1.25rem; color: var(--slate); font-variant-numeric: tabular-nums; }
     td:not(:first-child) { text-align: right; }
-
     td.positive { color: var(--green); font-weight: 500; }
 
     /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem;
-      text-align: center;
-      font-size: 0.8125rem;
-      color: var(--muted);
-      background: var(--surface);
-    }
-
+    footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: 0.8125rem; color: var(--muted); background: var(--surface); }
     footer a { color: var(--slate); text-decoration: none; }
     footer a:hover { color: var(--navy); }
 
@@ -459,54 +126,59 @@
       .emi-amount { font-size: 2.25rem; }
       table { font-size: 0.8125rem; }
       td, thead th { padding: 0.6rem 0.75rem; }
+      .cur-btn { padding: 4px 6px; font-size: 0.7rem; }
+      .cur-btn .cur-flag { display: none; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">Loan<span>Calc</span></div>
-  <ul class="nav-links">
-    <li><a href="#">Mortgage</a></li>
-    <li><a href="#">Car Loan</a></li>
-    <li><a href="#">Personal Loan</a></li>
-    <li><a href="#">Blog</a></li>
-  </ul>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#">Mortgage</a></li>
+      <li><a href="#">Car Loan</a></li>
+      <li><a href="#">Personal Loan</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+    <div class="currency-switcher">
+      <button class="cur-btn active" data-code="INR" onclick="switchCurrency('INR')"><span class="cur-flag">🇮🇳</span> ₹ INR</button>
+      <button class="cur-btn" data-code="USD" onclick="switchCurrency('USD')"><span class="cur-flag">🇺🇸</span> $ USD</button>
+      <button class="cur-btn" data-code="EUR" onclick="switchCurrency('EUR')"><span class="cur-flag">🇪🇺</span> € EUR</button>
+      <button class="cur-btn" data-code="GBP" onclick="switchCurrency('GBP')"><span class="cur-flag">🇬🇧</span> £ GBP</button>
+      <button class="cur-btn" data-code="JPY" onclick="switchCurrency('JPY')"><span class="cur-flag">🇯🇵</span> ¥ JPY</button>
+    </div>
+  </div>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-eyebrow">Free · Instant · No signup</div>
   <h1>Know your EMI before you sign anything.</h1>
   <p>Enter your loan details below and get a full breakdown — monthly payment, total interest, and year-by-year schedule.</p>
 </div>
 
-<!-- CALCULATOR -->
-<div class="calculator-wrap">
+<div class="currency-banner">
+  <div class="currency-banner-inner">
+    <span class="banner-flag" id="bannerFlag">🇮🇳</span>
+    <span id="bannerText">Showing amounts in Indian Rupee (INR)</span>
+  </div>
+</div>
 
-  <!-- LEFT: INPUTS -->
+<div class="calculator-wrap">
   <div class="panel">
     <div class="panel-title">Loan Details</div>
-
     <div class="field">
-      <label>
-        Loan Amount
-        <span class="value-display" id="loanAmountDisplay">₹50,00,000</span>
-      </label>
+      <label>Loan Amount <span class="value-display" id="loanAmountDisplay">₹50,00,000</span></label>
       <div class="input-wrap">
-        <span class="input-prefix">₹</span>
+        <span class="input-prefix" id="prefixSymbol">₹</span>
         <input type="number" id="loanAmount" value="5000000" min="100000" max="100000000" step="100000" />
       </div>
       <input type="range" id="loanAmountRange" min="100000" max="100000000" step="100000" value="5000000" />
-      <div class="range-labels"><span>₹1L</span><span>₹10Cr</span></div>
+      <div class="range-labels"><span id="rangeMin">₹1L</span><span id="rangeMax">₹10Cr</span></div>
     </div>
-
     <div class="field">
-      <label>
-        Interest Rate
-        <span class="value-display" id="interestRateDisplay">8.5%</span>
-      </label>
+      <label>Interest Rate <span class="value-display" id="interestRateDisplay">8.5%</span></label>
       <div class="input-wrap">
         <input type="number" id="interestRate" value="8.5" min="1" max="30" step="0.1" style="padding-left: 14px;" />
         <span class="input-suffix">% p.a.</span>
@@ -514,12 +186,8 @@
       <input type="range" id="interestRateRange" min="1" max="30" step="0.1" value="8.5" />
       <div class="range-labels"><span>1%</span><span>30%</span></div>
     </div>
-
     <div class="field">
-      <label>
-        Loan Tenure
-        <span class="value-display" id="tenureDisplay">20 yrs</span>
-      </label>
+      <label>Loan Tenure <span class="value-display" id="tenureDisplay">20 yrs</span></label>
       <div class="input-wrap">
         <input type="number" id="tenure" value="20" min="1" max="30" step="1" style="padding-left: 14px;" />
         <span class="input-suffix">years</span>
@@ -529,39 +197,24 @@
     </div>
   </div>
 
-  <!-- RIGHT: RESULTS -->
   <div class="panel">
     <div class="panel-title">Monthly Breakdown</div>
-
     <div class="emi-highlight">
       <div class="emi-label">Monthly EMI</div>
       <div class="emi-amount" id="emiResult">₹0</div>
       <div class="emi-period" id="emiPeriod">for 0 months</div>
     </div>
-
-    <!-- DONUT -->
     <div class="chart-wrap">
       <svg class="donut-svg" width="140" height="140" viewBox="0 0 140 140">
-        <circle id="donutBg" cx="70" cy="70" r="54" fill="none" stroke="#E2E5E9" stroke-width="16" />
-        <circle id="donutInterest" cx="70" cy="70" r="54" fill="none"
-          stroke="#A78BFA" stroke-width="16"
-          stroke-dasharray="339.3" stroke-dashoffset="0"
-          stroke-linecap="butt"
-          transform="rotate(-90 70 70)"
-          style="transition: stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
-        <circle id="donutPrincipal" cx="70" cy="70" r="54" fill="none"
-          stroke="#4F46E5" stroke-width="16"
-          stroke-dasharray="339.3" stroke-dashoffset="0"
-          stroke-linecap="butt"
-          transform="rotate(-90 70 70)"
-          style="transition: stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
+        <circle cx="70" cy="70" r="54" fill="none" stroke="#E2E5E9" stroke-width="16" />
+        <circle id="donutInterest" cx="70" cy="70" r="54" fill="none" stroke="#A78BFA" stroke-width="16" stroke-dasharray="339.3" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" style="transition: stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
+        <circle id="donutPrincipal" cx="70" cy="70" r="54" fill="none" stroke="#4F46E5" stroke-width="16" stroke-dasharray="339.3" stroke-dashoffset="0" stroke-linecap="butt" transform="rotate(-90 70 70)" style="transition: stroke-dashoffset 0.45s cubic-bezier(.4,0,.2,1);" />
       </svg>
       <div class="donut-center-text">
         <div class="donut-center-pct" id="interestPct">0%</div>
         <div class="donut-center-sub">Interest</div>
       </div>
     </div>
-
     <div class="breakdown">
       <div class="breakdown-row">
         <div class="breakdown-label"><span class="dot dot-principal"></span>Principal</div>
@@ -580,7 +233,6 @@
   </div>
 </div>
 
-<!-- AMORTIZATION TABLE -->
 <div class="amort-wrap">
   <div class="section-header">
     <div class="section-title">Year-by-Year Schedule</div>
@@ -589,79 +241,102 @@
   <table>
     <thead>
       <tr>
-        <th>Year</th>
-        <th>Principal Paid</th>
-        <th>Interest Paid</th>
-        <th>Total Paid</th>
-        <th>Balance</th>
+        <th>Year</th><th>Principal Paid</th><th>Interest Paid</th><th>Total Paid</th><th>Balance</th>
       </tr>
     </thead>
     <tbody id="amortBody"></tbody>
   </table>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <p>LoanCalc — Free mortgage & EMI calculator &nbsp;·&nbsp; <a href="#">Privacy</a> &nbsp;·&nbsp; <a href="#">About</a></p>
   <p style="margin-top:0.5rem;">Results are estimates. Consult your lender for exact figures.</p>
 </footer>
 
 <script>
-  const fmt = (n) => '₹' + Math.round(n).toLocaleString('en-IN');
+  // Currency definitions: rateToINR = how many INR per 1 unit of this currency
+  const CURRENCIES = {
+    INR: { symbol: '₹', name: 'Indian Rupee',   flag: '🇮🇳', rateToINR: 1,      defaultLoan: 5000000, sliderMin: 100000,  sliderMax: 100000000, step: 100000, rangeMin: '₹1L',   rangeMax: '₹10Cr' },
+    USD: { symbol: '$', name: 'US Dollar',       flag: '🇺🇸', rateToINR: 83.5,   defaultLoan: 60000,   sliderMin: 1000,    sliderMax: 2000000,   step: 1000,   rangeMin: '$1K',   rangeMax: '$2M'   },
+    EUR: { symbol: '€', name: 'Euro',            flag: '🇪🇺', rateToINR: 90.2,   defaultLoan: 55000,   sliderMin: 1000,    sliderMax: 2000000,   step: 1000,   rangeMin: '€1K',   rangeMax: '€2M'   },
+    GBP: { symbol: '£', name: 'British Pound',   flag: '🇬🇧', rateToINR: 106.1,  defaultLoan: 48000,   sliderMin: 1000,    sliderMax: 2000000,   step: 1000,   rangeMin: '£1K',   rangeMax: '£2M'   },
+    JPY: { symbol: '¥', name: 'Japanese Yen',    flag: '🇯🇵', rateToINR: 0.56,   defaultLoan: 8900000, sliderMin: 100000,  sliderMax: 300000000, step: 100000, rangeMin: '¥100K', rangeMax: '¥300M' },
+  };
 
-  // Sync number input <-> range slider
+  let activeCurrency = 'INR';
+
+  function fmt(n) {
+    const cfg = CURRENCIES[activeCurrency];
+    const rounded = Math.round(n);
+    if (activeCurrency === 'INR') return cfg.symbol + rounded.toLocaleString('en-IN');
+    if (activeCurrency === 'JPY') return cfg.symbol + rounded.toLocaleString('ja-JP');
+    return cfg.symbol + rounded.toLocaleString('en-US');
+  }
+
+  function switchCurrency(code) {
+    activeCurrency = code;
+    const cfg = CURRENCIES[code];
+
+    // Highlight active button
+    document.querySelectorAll('.cur-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.code === code));
+
+    // Update input prefix symbol
+    document.getElementById('prefixSymbol').textContent = cfg.symbol;
+
+    // Update slider bounds and default value
+    const loanInput = document.getElementById('loanAmount');
+    const loanRange = document.getElementById('loanAmountRange');
+    loanInput.min = cfg.sliderMin; loanInput.max = cfg.sliderMax; loanInput.step = cfg.step; loanInput.value = cfg.defaultLoan;
+    loanRange.min = cfg.sliderMin; loanRange.max = cfg.sliderMax; loanRange.step = cfg.step; loanRange.value = cfg.defaultLoan;
+    document.getElementById('rangeMin').textContent = cfg.rangeMin;
+    document.getElementById('rangeMax').textContent = cfg.rangeMax;
+    document.getElementById('loanAmountDisplay').textContent = fmt(cfg.defaultLoan);
+
+    // Update info banner
+    document.getElementById('bannerFlag').textContent = cfg.flag;
+    if (code === 'INR') {
+      document.getElementById('bannerText').textContent = 'Showing amounts in Indian Rupee (INR)';
+    } else {
+      document.getElementById('bannerText').textContent =
+        'Showing amounts in ' + cfg.name + ' (' + code + ')  —  1 ' + code + ' \u2248 \u20b9' + cfg.rateToINR.toLocaleString('en-IN');
+    }
+
+    calculate();
+  }
+
+  // Sync slider pairs
   function syncPair(inputId, rangeId, displayId, formatter) {
     const input = document.getElementById(inputId);
     const range = document.getElementById(rangeId);
     const display = document.getElementById(displayId);
-
-    input.addEventListener('input', () => {
-      range.value = input.value;
-      display.textContent = formatter(input.value);
-      calculate();
-    });
-    range.addEventListener('input', () => {
-      input.value = range.value;
-      display.textContent = formatter(range.value);
-      calculate();
-    });
+    input.addEventListener('input', () => { range.value = input.value; display.textContent = formatter(input.value); calculate(); });
+    range.addEventListener('input', () => { input.value = range.value; display.textContent = formatter(range.value); calculate(); });
   }
 
-  syncPair('loanAmount', 'loanAmountRange', 'loanAmountDisplay', v => fmt(v));
+  syncPair('loanAmount', 'loanAmountRange', 'loanAmountDisplay', v => fmt(parseFloat(v)));
   syncPair('interestRate', 'interestRateRange', 'interestRateDisplay', v => parseFloat(v).toFixed(1) + '%');
   syncPair('tenure', 'tenureRange', 'tenureDisplay', v => v + ' yrs');
 
-  // Donut chart
-  const CIRC = 2 * Math.PI * 54; // 339.29
-
-  function updateDonut(principalAmt, interestAmt) {
-    const total = principalAmt + interestAmt;
-    if (total === 0) return;
-
-    const iPct = interestAmt / total;
-    const pPct = principalAmt / total;
-
-    const interestDash = iPct * CIRC;
-    const principalDash = pPct * CIRC;
-
-    // Interest arc: starts at top, goes iPct around
-    const donutI = document.getElementById('donutInterest');
-    donutI.setAttribute('stroke-dasharray', `${interestDash} ${CIRC - interestDash}`);
-    donutI.setAttribute('stroke-dashoffset', 0);
-
-    // Principal arc: starts after interest
-    const donutP = document.getElementById('donutPrincipal');
-    donutP.setAttribute('stroke-dasharray', `${principalDash} ${CIRC - principalDash}`);
-    donutP.setAttribute('stroke-dashoffset', -interestDash);
-
+  // Donut
+  const CIRC = 2 * Math.PI * 54;
+  function updateDonut(P, I) {
+    const total = P + I; if (!total) return;
+    const iPct = I / total, pPct = P / total;
+    const iDash = iPct * CIRC, pDash = pPct * CIRC;
+    const dI = document.getElementById('donutInterest');
+    dI.setAttribute('stroke-dasharray', iDash + ' ' + (CIRC - iDash));
+    dI.setAttribute('stroke-dashoffset', 0);
+    const dP = document.getElementById('donutPrincipal');
+    dP.setAttribute('stroke-dasharray', pDash + ' ' + (CIRC - pDash));
+    dP.setAttribute('stroke-dashoffset', -iDash);
     document.getElementById('interestPct').textContent = Math.round(iPct * 100) + '%';
   }
 
-  // Amortization
+  // Amortization toggle
   let showAll = false;
   document.getElementById('toggleTable').addEventListener('click', () => {
     showAll = !showAll;
-    document.getElementById('toggleTable').textContent = showAll ? 'Show less ↑' : 'Show all years ↓';
+    document.getElementById('toggleTable').textContent = showAll ? 'Show less \u2191' : 'Show all years \u2193';
     calculate();
   });
 
@@ -669,7 +344,6 @@
     const P = parseFloat(document.getElementById('loanAmount').value);
     const annualRate = parseFloat(document.getElementById('interestRate').value);
     const years = parseInt(document.getElementById('tenure').value);
-
     if (!P || !annualRate || !years) return;
 
     const r = annualRate / 12 / 100;
@@ -679,44 +353,32 @@
     const totalInterest = totalPay - P;
 
     document.getElementById('emiResult').textContent = fmt(emi);
-    document.getElementById('emiPeriod').textContent = `for ${n} months`;
+    document.getElementById('emiPeriod').textContent = 'for ' + n + ' months';
     document.getElementById('principalTotal').textContent = fmt(P);
     document.getElementById('interestTotal').textContent = fmt(totalInterest);
     document.getElementById('totalPayment').textContent = fmt(totalPay);
-
     updateDonut(P, totalInterest);
 
-    // Build yearly amortization
     let balance = P;
     const tbody = document.getElementById('amortBody');
     tbody.innerHTML = '';
     const maxYears = showAll ? years : Math.min(5, years);
-
     for (let y = 1; y <= maxYears; y++) {
-      let yearPrincipal = 0, yearInterest = 0;
+      let yP = 0, yI = 0;
       for (let m = 1; m <= 12; m++) {
         if ((y - 1) * 12 + m > n) break;
         const intPart = balance * r;
         const prinPart = emi - intPart;
-        yearInterest += intPart;
-        yearPrincipal += prinPart;
-        balance -= prinPart;
+        yI += intPart; yP += prinPart; balance -= prinPart;
       }
       const tr = document.createElement('tr');
       tr.className = 'year-row';
-      tr.innerHTML = `
-        <td>Year ${y}</td>
-        <td>${fmt(yearPrincipal)}</td>
-        <td>${fmt(yearInterest)}</td>
-        <td>${fmt(yearPrincipal + yearInterest)}</td>
-        <td class="positive">${fmt(Math.max(0, balance))}</td>
-      `;
+      tr.innerHTML = '<td>Year ' + y + '</td><td>' + fmt(yP) + '</td><td>' + fmt(yI) + '</td><td>' + fmt(yP + yI) + '</td><td class="positive">' + fmt(Math.max(0, balance)) + '</td>';
       tbody.appendChild(tr);
     }
-
     if (!showAll && years > 5) {
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="5" style="text-align:center; color:var(--muted); padding:1rem; font-size:0.8125rem;">Showing 5 of ${years} years — click "Show all years" above</td>`;
+      tr.innerHTML = '<td colspan="5" style="text-align:center;color:var(--muted);padding:1rem;font-size:0.8125rem;">Showing 5 of ' + years + ' years \u2014 click \u201cShow all years\u201d above</td>';
       tbody.appendChild(tr);
     }
   }
