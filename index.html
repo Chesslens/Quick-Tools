@@ -177,12 +177,13 @@
 <body>
 
 <nav>
-  <div class="nav-logo">Loan<span>Calc</span></div>
   <div class="nav-right">
+  <ul class="nav-links">
     <li><a href="#mortgage">Mortgage</a></li>
-<li><a href="#carloan">Car Loan</a></li>
-<li><a href="#personalloan">Personal Loan</a></li>
-<li><a href="#blog">Blog</a></li>
+    <li><a href="#carloan">Car Loan</a></li>
+    <li><a href="#personalloan">Personal Loan</a></li>
+    <li><a href="#blog">Blog</a></li>
+  </ul>
     <div class="currency-switcher">
       <button class="cur-btn active" data-code="INR" onclick="switchCurrency('INR')"><span class="cur-flag">🇮🇳</span> ₹ INR</button>
       <button class="cur-btn" data-code="USD" onclick="switchCurrency('USD')"><span class="cur-flag">🇺🇸</span> $ USD</button>
@@ -514,7 +515,6 @@
     overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(overlay.id); });
   });
 </script>
-</script>
      
 <section id="mortgage" style="max-width: 800px; margin: 40px auto; padding: 20px;">
   <h2>Mortgage Calculator</h2>
@@ -569,8 +569,7 @@
 </section>
 
 <section id="contact" style="max-width: 800px; margin: 40px auto; padding: 20px;">   
-<section id="contact" style="max-width: 800px; margin: 40px auto; padding: 20px;">
-   
+  
      <h2>Contact Us</h2>
     <p>
         Have questions, suggestions, or feedback about LoanCalc INR?
